@@ -1,0 +1,42 @@
+{
+  "name": "streaming",
+  "version": "1.0.0",
+  "author": "Ziphil",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "run-s build:client",
+    "build:client": "webpack --mode production --config webpack-client.ts",
+    "develop": "run-p develop:client",
+    "develop:client": "webpack-dev-server --mode development --devtool inline-source-map --config webpack-client.ts --hot",
+    "start": "node dist/index.js",
+    "command:tsnode": "ts-node",
+    "command:tsc": "tsc"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/html-webpack-plugin": "^3.2.4",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "babel-loader": "^8.2.1",
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "node-sass": "^5.0.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-loader": "^4.0.4",
+    "sass-loader": "^10.1.0",
+    "source-map-loader": "^1.1.2",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.11",
+    "ts-node": "^9.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.5",
+    "webpack": "^5.5.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
