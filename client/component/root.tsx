@@ -5,6 +5,9 @@ import {
   Component,
   ReactNode
 } from "react";
+import {
+  CommentViewer
+} from "./gadget/comment-viewer";
 
 
 export class Root extends Component<Props, State> {
@@ -12,7 +15,7 @@ export class Root extends Component<Props, State> {
   public render(): ReactNode {
     let node = (
       <div className="root">
-        Hello, React!
+        <CommentViewer/>
       </div>
     );
     return node;
