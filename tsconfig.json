@@ -17,6 +17,7 @@
     "removeComments": true
   },
   "include": [
-    "source/**/*"
+    "client/**/*",
+    "server/**/*"
   ]
 }

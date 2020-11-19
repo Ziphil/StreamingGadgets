@@ -5,9 +5,9 @@ import path from "path";
 
 
 let config = {
-  entry: ["babel-polyfill", "./source/index.tsx"],
+  entry: ["babel-polyfill", "./client/index.tsx"],
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "dist", "client"),
     publicPath: "",
     filename: "./bundle.js"
   },
@@ -70,11 +70,11 @@ let config = {
   devServer: {
     port: 3001,
     historyApiFallback: true,
-    contentBase: path.join(__dirname, "dist")
+    contentBase: path.join(__dirname, "dist", "client")
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./source/public/index.html",
+      template: "./client/public/index.html",
       title: "Streaming"
     })
   ]
