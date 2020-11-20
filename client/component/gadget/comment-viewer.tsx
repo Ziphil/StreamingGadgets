@@ -37,7 +37,7 @@ export class CommentViewer extends Component<Props, State> {
         return undefined;
       }
     });
-    let fetchers = rawFetchers.filter((fetcher) => fetcher !== undefined) as Array<CommentFetcher>;
+    let fetchers = rawFetchers.flatMap((fetcher) => fetcher ?? []);
     this.state.fetchers = fetchers;
   }
 
