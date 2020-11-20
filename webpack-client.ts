@@ -70,7 +70,10 @@ let config = {
   devServer: {
     port: 3001,
     historyApiFallback: true,
-    contentBase: path.join(__dirname, "dist", "client")
+    contentBase: path.join(__dirname, "dist", "client"),
+    proxy: {
+      "/interface": "http://localhost:8051"
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

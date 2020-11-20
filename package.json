@@ -5,13 +5,25 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "run-s build:client",
-    "build:client": "webpack --mode production --config webpack-client.ts",
-    "develop": "run-p develop:client",
+    "develop": "run-p develop:client develop:server develop:nodemon",
     "develop:client": "webpack-dev-server --mode development --devtool inline-source-map --config webpack-client.ts --hot",
+    "develop:server": "webpack --mode development --config webpack-server.ts --watch",
+    "develop:nodemon": "nodemon --inspect -L dist/index.js",
+    "build": "run-s build:client build:server",
+    "build:client": "webpack --mode production --config webpack-client.ts",
+    "build:server": "webpack --mode production --config webpack-server.ts",
     "start": "node dist/index.js",
     "command:tsnode": "ts-node",
     "command:tsc": "tsc"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "dist"
+    ],
+    "ext": "js",
+    "ignore": [
+      "dist/client/**"
+    ]
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -19,14 +31,19 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.9",
     "@types/html-webpack-plugin": "^3.2.4",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/webpack-node-externals": "^2.5.0",
     "babel-loader": "^8.2.1",
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.19.0",
     "css-loader": "^5.0.1",
+    "express": "^4.17.1",
     "html-webpack-plugin": "^4.5.0",
     "node-sass": "^5.0.0",
+    "nodemon": "^2.0.6",
     "npm-run-all": "^4.1.5",
     "postcss-loader": "^4.0.4",
     "sass-loader": "^10.1.0",
@@ -38,6 +55,7 @@
     "typescript": "^4.0.5",
     "webpack": "^5.5.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-node-externals": "^2.5.2"
   }
 }
