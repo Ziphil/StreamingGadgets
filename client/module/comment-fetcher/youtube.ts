@@ -25,6 +25,7 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
 
   public async update(): Promise<Array<Comment>> {
     let comments = await this.fetchComments();
+    console.log({comments});
     return comments;
   }
 

@@ -1,7 +1,7 @@
 //
 
 
-export abstract class CommentFetcher<C> {
+export abstract class CommentFetcher<C = unknown> {
 
   protected readonly config: C;
 
