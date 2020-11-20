@@ -97,8 +97,9 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
 }
 
 
-type YoutubeCommentFetcherConfig = {
-  readonly key: string,
-  readonly channelId?: string,
-  readonly videoId?: string
+export type YoutubeCommentFetcherConfig = {
+  name: "youtube",
+  key: string,
+  channelId?: string,
+  videoId?: string
 };

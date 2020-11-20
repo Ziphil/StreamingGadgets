@@ -6,7 +6,7 @@ import {
 } from "./comment-fetcher";
 
 
-export class DummyCommentFetcher extends CommentFetcher {
+export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfig> {
 
   public async start(): Promise<void> {
   }
@@ -29,3 +29,8 @@ export class DummyCommentFetcher extends CommentFetcher {
   }
 
 }
+
+
+export type DummyCommentFetcherConfig = {
+  name: "dummy"
+};

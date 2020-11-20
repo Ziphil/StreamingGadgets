@@ -10,10 +10,12 @@ import {
   CommentFetcher
 } from "../../module/comment-fetcher/comment-fetcher";
 import {
-  DummyCommentFetcher
+  DummyCommentFetcher,
+  DummyCommentFetcherConfig
 } from "../../module/comment-fetcher/dummy";
 import {
-  YoutubeCommentFetcher
+  YoutubeCommentFetcher,
+  YoutubeCommentFetcherConfig
 } from "../../module/comment-fetcher/youtube";
 
 
@@ -26,20 +28,23 @@ export class CommentViewer extends Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    let fetchers = [];
-    for (let [name, fetcherConfig] of Object.entries<any>(props.config)) {
-      if (name === "youtube") {
-        fetchers.push(new YoutubeCommentFetcher(fetcherConfig));
-      } else if (name === "dummy") {
-        fetchers.push(new DummyCommentFetcher(fetcherConfig));
+    let rawFetchers = props.config.platforms.map((platformConfig) => {
+      if (platformConfig.name === "youtube") {
+        return new YoutubeCommentFetcher(platformConfig);
+      } else if (platformConfig.name === "dummy") {
+        return new DummyCommentFetcher(platformConfig);
+      } else {
+        return undefined;
       }
-    }
+    });
+    let fetchers = rawFetchers.filter((fetcher) => fetcher !== undefined) as Array<CommentFetcher>;
     this.state.fetchers = fetchers;
   }
 
   public async componentDidMount(): Promise<void> {
     await this.start();
-    setInterval(this.update.bind(this), 2000);
+    let duration = this.props.config.duration;
+    setInterval(this.update.bind(this), duration);
   }
 
   private async start(): Promise<void> {
@@ -76,9 +81,16 @@ export class CommentViewer extends Component<Props, State> {
 
 
 type Props = {
-  config: any
+  config: CommentViewerConfig
 };
 type State = {
   fetchers: Array<CommentFetcher>,
   comments: Array<Comment>
 };
+
+export type CommentViewerConfig = {
+  name: "commentViewer",
+  platforms: Array<PlatformConfig>,
+  duration: number
+};
+export type PlatformConfig = YoutubeCommentFetcherConfig | DummyCommentFetcherConfig;

@@ -8,32 +8,33 @@ import {
   ReactNode
 } from "react";
 import {
-  CommentViewer
+  CommentViewer,
+  CommentViewerConfig
 } from "./gadget/comment-viewer";
 
 
 export class Root extends Component<Props, State> {
 
   public state: State = {
-    config: null
+    configs: []
   };
 
   public async componentDidMount(): Promise<void> {
     let path = queryParser.parse(window.location.search).path;
     let params = {path};
-    let config = await axios.get("/interface/config", {params}).then((response) => response.data);
-    this.setState({config});
+    let configs = await axios.get("/interface/config", {params}).then((response) => response.data);
+    console.log({configs});
+    this.setState({configs});
   }
 
   public render(): ReactNode {
-    let gadgetNodes = [];
-    if (this.state.config !== null) {
-      for (let [name, config] of Object.entries(this.state.config)) {
-        if (name === "commentViewer") {
-          gadgetNodes.push(<CommentViewer config={config}/>);
-        }
+    let gadgetNodes = this.state.configs.map((config, index) => {
+      if (config.name === "commentViewer") {
+        return <CommentViewer key={index} config={config}/>;
+      } else {
+        return undefined;
       }
-    }
+    });
     let node = (
       <div className="root">
         {gadgetNodes}
@@ -48,5 +49,7 @@ export class Root extends Component<Props, State> {
 type Props = {
 };
 type State = {
-  config: any | null
+  configs: Array<Config>
 };
+
+export type Config = CommentViewerConfig;
