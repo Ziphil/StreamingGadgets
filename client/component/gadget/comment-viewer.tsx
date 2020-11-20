@@ -56,9 +56,9 @@ export class CommentViewer extends Component<Props, State> {
   }
 
   public render(): ReactNode {
-    let commentNodes = this.state.comments.map((comment) => {
+    let commentNodes = this.state.comments.map((comment, index) => {
       let commentNode = (
-        <div className="comment">
+        <div className="comment" key={index}>
           <span className="author">{comment.author}</span>
           <span className="text">{comment.text}</span>
         </div>
