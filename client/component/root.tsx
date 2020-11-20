@@ -49,10 +49,10 @@ export class Root extends Component<Props, State> {
 type Props = {
 };
 type State = {
-  config: Config
+  config: RootConfig
 };
 
-export type Config = {
+export type RootConfig = {
   gadgets: Array<GadgetConfig>,
   cssPath?: string
 };
