@@ -22,10 +22,13 @@ export class Root extends Component<Props, State> {
   public async componentDidMount(): Promise<void> {
     let path = queryParser.parse(window.location.search).path;
     let params = {path};
-    let config = await axios.get<RootConfig>("/interface/config", {params}).then((response) => response.data);
-    console.log({config});
-    this.appendStyleElement(config.cssPath);
-    this.setState({config});
+    try {
+      let config = await axios.get<RootConfig>("/interface/config", {params}).then((response) => response.data);
+      console.log({config});
+      this.appendStyleElement(config.cssPath);
+      this.setState({config});
+    } catch (error) {
+    }
   }
 
   private appendStyleElement(path: string | undefined): void {

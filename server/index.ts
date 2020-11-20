@@ -33,7 +33,7 @@ export class Main {
       let path = request.query.path as string;
       fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
         if (error) {
-          response.type("application/json").send("{}").end();
+          next(error);
         } else {
           response.type("application/json").send(config).end();
         }
