@@ -39,6 +39,16 @@ export class Main {
         }
       });
     });
+    this.application.get("/interface/style", (request, response, next) => {
+      let path = request.query.path as string;
+      fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
+        if (error) {
+          response.type("text/css").send("").end();
+        } else {
+          response.type("text/css").send(config).end();
+        }
+      });
+    });
   }
 
   private setupStatic(): void {

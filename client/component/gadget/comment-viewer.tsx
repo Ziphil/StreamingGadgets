@@ -70,7 +70,7 @@ export class CommentViewer extends Component<Props, State> {
       return commentNode;
     });
     let node = (
-      <div className="comment-viewer">
+      <div className="gadget comment-viewer">
         {commentNodes}
       </div>
     );

@@ -22,9 +22,19 @@ export class Root extends Component<Props, State> {
   public async componentDidMount(): Promise<void> {
     let path = queryParser.parse(window.location.search).path;
     let params = {path};
-    let config = await axios.get("/interface/config", {params}).then((response) => response.data);
+    let config = await axios.get<RootConfig>("/interface/config", {params}).then((response) => response.data);
     console.log({config});
+    this.appendStyleElement(config.cssPath);
     this.setState({config});
+  }
+
+  private appendStyleElement(path: string | undefined): void {
+    if (path !== undefined) {
+      let element = document.createElement("link");
+      element.href = "/interface/style?path=" + encodeURIComponent(path);
+      element.rel = "stylesheet";
+      document.head.appendChild(element);
+    }
   }
 
   public render(): ReactNode {
