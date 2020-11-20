@@ -16,21 +16,21 @@ import {
 export class Root extends Component<Props, State> {
 
   public state: State = {
-    configs: []
+    config: {gadgets: []}
   };
 
   public async componentDidMount(): Promise<void> {
     let path = queryParser.parse(window.location.search).path;
     let params = {path};
-    let configs = await axios.get("/interface/config", {params}).then((response) => response.data);
-    console.log({configs});
-    this.setState({configs});
+    let config = await axios.get("/interface/config", {params}).then((response) => response.data);
+    console.log({config});
+    this.setState({config});
   }
 
   public render(): ReactNode {
-    let gadgetNodes = this.state.configs.map((config, index) => {
-      if (config.name === "commentViewer") {
-        return <CommentViewer key={index} config={config}/>;
+    let gadgetNodes = this.state.config.gadgets.map((gadgetConfig, index) => {
+      if (gadgetConfig.name === "commentViewer") {
+        return <CommentViewer key={index} config={gadgetConfig}/>;
       } else {
         return undefined;
       }
@@ -49,7 +49,11 @@ export class Root extends Component<Props, State> {
 type Props = {
 };
 type State = {
-  configs: Array<Config>
+  config: Config
 };
 
-export type Config = CommentViewerConfig;
+export type Config = {
+  gadgets: Array<GadgetConfig>,
+  cssPath?: string
+};
+export type GadgetConfig = CommentViewerConfig;
