@@ -26,9 +26,8 @@ export class CommentViewer extends Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    let config = require("../../config.json").commentViewer;
     let fetchers = [];
-    for (let [name, fetcherConfig] of Object.entries<any>(config)) {
+    for (let [name, fetcherConfig] of Object.entries<any>(props.config)) {
       if (name === "youtube") {
         fetchers.push(new YoutubeCommentFetcher(fetcherConfig));
       } else if (name === "dummy") {
@@ -77,6 +76,7 @@ export class CommentViewer extends Component<Props, State> {
 
 
 type Props = {
+  config: any
 };
 type State = {
   fetchers: Array<CommentFetcher>,
