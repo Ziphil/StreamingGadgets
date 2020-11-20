@@ -10,6 +10,9 @@ import {
   CommentFetcher
 } from "../../module/comment-fetcher/comment-fetcher";
 import {
+  DummyCommentFetcher
+} from "../../module/comment-fetcher/dummy";
+import {
   YoutubeCommentFetcher
 } from "../../module/comment-fetcher/youtube";
 
@@ -24,7 +27,14 @@ export class CommentViewer extends Component<Props, State> {
   public constructor(props: Props) {
     super(props);
     let config = require("../../config.json").commentViewer;
-    let fetchers = [new YoutubeCommentFetcher(config)];
+    let fetchers = [];
+    for (let [name, fetcherConfig] of Object.entries<any>(config)) {
+      if (name === "youtube") {
+        fetchers.push(new YoutubeCommentFetcher(fetcherConfig));
+      } else if (name === "dummy") {
+        fetchers.push(new DummyCommentFetcher(fetcherConfig));
+      }
+    }
     this.state.fetchers = fetchers;
   }
 

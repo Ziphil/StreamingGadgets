@@ -12,10 +12,6 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
   private liveChatId?: string;
   private pageToken?: string;
 
-  public constructor(config: YoutubeCommentFetcherConfig) {
-    super(config);
-  }
-
   public async start(): Promise<void> {
     let videoId = await this.fetchVideoId();
     let liveChatId = (videoId !== undefined) ? await this.fetchLiveChatId(videoId) : undefined;
