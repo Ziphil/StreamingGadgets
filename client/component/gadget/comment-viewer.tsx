@@ -47,8 +47,8 @@ export class CommentViewer extends Component<Props, State> {
 
   public async componentDidMount(): Promise<void> {
     await this.start();
-    let duration = this.props.config.duration;
-    setInterval(this.update.bind(this), duration);
+    let interval = this.props.config.interval;
+    setInterval(this.update.bind(this), interval);
   }
 
   private async start(): Promise<void> {
@@ -99,6 +99,6 @@ type State = {
 export type CommentViewerConfig = {
   name: "commentViewer",
   platforms: Array<PlatformConfig>,
-  duration: number
+  interval: number
 };
 export type PlatformConfig = YoutubeCommentFetcherConfig | DummyCommentFetcherConfig;
