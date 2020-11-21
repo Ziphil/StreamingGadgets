@@ -6,6 +6,7 @@ import {
   Express
 } from "express";
 import fs from "fs";
+import readline from "readline";
 
 
 export class Main {
@@ -47,6 +48,19 @@ export class Main {
         } else {
           response.type("text/css").send(config).end();
         }
+      });
+    });
+    this.application.get("/interface/word-count", (request, response, next) => {
+      let path = request.query.path as string;
+      let stream = readline.createInterface({input: fs.createReadStream(path)});
+      let count = 0;
+      stream.on("line", (line) => {
+        if (line.match(/^\*\s*(.+)\s*$/)) {
+          count ++;
+        }
+      });
+      stream.on("close", () => {
+        response.json(count).end();
       });
     });
   }
