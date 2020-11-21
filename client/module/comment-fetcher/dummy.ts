@@ -3,7 +3,7 @@
 import {
   Comment,
   CommentFetcher
-} from "./comment-fetcher";
+} from "./base";
 
 
 export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfig> {

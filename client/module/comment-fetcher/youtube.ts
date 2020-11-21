@@ -4,7 +4,7 @@ import axios from "axios";
 import {
   Comment,
   CommentFetcher
-} from "./comment-fetcher";
+} from "./base";
 
 
 export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherConfig> {

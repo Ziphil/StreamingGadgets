@@ -11,7 +11,7 @@ import {
 import {
   Comment,
   CommentFetcher
-} from "../../module/comment-fetcher/comment-fetcher";
+} from "../../module/comment-fetcher/base";
 import {
   DummyCommentFetcher,
   DummyCommentFetcherConfig
