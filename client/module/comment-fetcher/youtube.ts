@@ -62,33 +62,24 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
 
   private async fetchComments(): Promise<Array<Comment>> {
     if (this.liveChatId !== undefined) {
-      let comments = [];
       let key = this.config.key;
       let liveChatId = this.liveChatId;
       let pageToken = this.pageToken;
-      while (true) {
-        let params = {key, liveChatId, pageToken, part: "id,snippet,authorDetails"};
-        try {
-          let data = await axios.get("https://www.googleapis.com/youtube/v3/liveChat/messages", {params}).then((response) => response.data);
-          let items = data["items"] as Array<any>;
-          let nextPageToken = data["nextPageToken"];
-          if (items.length > 0) {
-            let eachComments = items.map((item) => {
-              let author = item["authorDetails"]["displayName"];
-              let text = item["snippet"]["displayMessage"];
-              return new Comment(author, text);
-            });
-            pageToken = nextPageToken;
-            comments.push(...eachComments);
-          } else {
-            break;
-          }
-        } catch (error) {
-          break;
-        }
+      let params = {key, liveChatId, pageToken, part: "id,snippet,authorDetails"};
+      try {
+        let data = await axios.get("https://www.googleapis.com/youtube/v3/liveChat/messages", {params}).then((response) => response.data);
+        let items = data["items"] as Array<any>;
+        let nextPageToken = data["nextPageToken"];
+        let comments = items.map((item) => {
+          let author = item["authorDetails"]["displayName"];
+          let text = item["snippet"]["displayMessage"];
+          return new Comment(author, text);
+        });
+        this.pageToken = nextPageToken;
+        return comments;
+      } catch (error) {
+        return [];
       }
-      this.pageToken = pageToken;
-      return comments;
     } else {
       return [];
     }
