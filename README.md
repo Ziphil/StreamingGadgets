@@ -45,13 +45,13 @@ http://localhost:8051/?path=(設定ファイルの絶対パス)
           "name": "dummy"
         }
       ],
-      "interval": 500  // 更新間隔 (ミリ秒)
+      "interval": 5000  // 更新間隔 (ミリ秒)
     },
     // 辞書の単語数表示
     {
       "name": "wordCounter",
       "path": "*****.xdc",  // ファイル名 (絶対パス)
-      "interval": 5000  // 更新間隔 (ミリ秒)
+      "interval": 10000  // 更新間隔 (ミリ秒)
     }
   ],
   "cssPath": "*****.css"  // CSS ファイル名 (絶対パス)
