@@ -1,5 +1,8 @@
 //
 
+import {
+  nanoid
+} from "nanoid";
 import * as react from "react";
 import {
   Component,
@@ -23,7 +26,8 @@ export class CommentViewer extends Component<Props, State> {
 
   public state: State = {
     fetchers: [],
-    comments: []
+    comments: [],
+    id: ""
   };
 
   public constructor(props: Props) {
@@ -37,8 +41,8 @@ export class CommentViewer extends Component<Props, State> {
         return undefined;
       }
     });
-    let fetchers = rawFetchers.flatMap((fetcher) => fetcher ?? []);
-    this.state.fetchers = fetchers;
+    this.state.fetchers = rawFetchers.flatMap((fetcher) => fetcher ?? []);
+    this.state.id = nanoid(10);
   }
 
   public async componentDidMount(): Promise<void> {
@@ -57,7 +61,7 @@ export class CommentViewer extends Component<Props, State> {
     let addedComments = (await Promise.all(promises)).flat();
     let comments = [...this.state.comments, ...addedComments];
     this.setState({comments}, () => {
-      let element = document.getElementById("comment-viewer")!;
+      let element = document.getElementById(this.state.id)!;
       element.scrollTop = element.scrollHeight;
     });
   }
@@ -73,7 +77,7 @@ export class CommentViewer extends Component<Props, State> {
       return commentNode;
     });
     let node = (
-      <div className="gadget comment-viewer" id="comment-viewer">
+      <div className="gadget comment-viewer" id={this.state.id}>
         {commentNodes}
       </div>
     );
@@ -88,7 +92,8 @@ type Props = {
 };
 type State = {
   fetchers: Array<CommentFetcher>,
-  comments: Array<Comment>
+  comments: Array<Comment>,
+  id: string
 };
 
 export type CommentViewerConfig = {
