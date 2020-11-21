@@ -56,7 +56,10 @@ export class CommentViewer extends Component<Props, State> {
     let promises = this.state.fetchers.map((fetcher) => fetcher.update());
     let addedComments = (await Promise.all(promises)).flat();
     let comments = [...this.state.comments, ...addedComments];
-    this.setState({comments});
+    this.setState({comments}, () => {
+      let element = document.getElementById("comment-viewer")!;
+      element.scrollTop = element.scrollHeight;
+    });
   }
 
   public render(): ReactNode {
@@ -70,7 +73,7 @@ export class CommentViewer extends Component<Props, State> {
       return commentNode;
     });
     let node = (
-      <div className="gadget comment-viewer">
+      <div className="gadget comment-viewer" id="comment-viewer">
         {commentNodes}
       </div>
     );
