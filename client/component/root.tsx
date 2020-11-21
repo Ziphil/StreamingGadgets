@@ -5,6 +5,7 @@ import queryParser from "query-string";
 import * as react from "react";
 import {
   Component,
+  Fragment,
   ReactNode
 } from "react";
 import {
@@ -55,9 +56,9 @@ export class Root extends Component<Props, State> {
       }
     });
     let node = (
-      <div className="root">
+      <Fragment>
         {gadgetNodes}
-      </div>
+      </Fragment>
     );
     return node;
   }
