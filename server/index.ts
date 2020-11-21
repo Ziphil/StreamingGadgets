@@ -60,7 +60,7 @@ export class Main {
         }
       });
       stream.on("close", () => {
-        response.json(count).end();
+        response.json(count - 5).end();
       });
     });
   }
