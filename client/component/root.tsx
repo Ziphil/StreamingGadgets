@@ -11,6 +11,10 @@ import {
   CommentViewer,
   CommentViewerConfig
 } from "./gadget/comment-viewer";
+import {
+  WordCounter,
+  WordCounterConfig
+} from "./gadget/word-counter";
 
 
 export class Root extends Component<Props, State> {
@@ -44,6 +48,8 @@ export class Root extends Component<Props, State> {
     let gadgetNodes = this.state.config.gadgets.map((gadgetConfig, index) => {
       if (gadgetConfig.name === "commentViewer") {
         return <CommentViewer key={index} config={gadgetConfig}/>;
+      } else if (gadgetConfig.name === "wordCounter") {
+        return <WordCounter key={index} config={gadgetConfig}/>;
       } else {
         return undefined;
       }
@@ -69,4 +75,4 @@ export type RootConfig = {
   gadgets: Array<GadgetConfig>,
   cssPath?: string
 };
-export type GadgetConfig = CommentViewerConfig;
+export type GadgetConfig = CommentViewerConfig | WordCounterConfig;
