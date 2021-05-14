@@ -9,9 +9,9 @@ export abstract class CommentFetcher<C = unknown> {
     this.config = config;
   }
 
-  public abstract async start(): Promise<void>;
+  public abstract start(): Promise<void>;
 
-  public abstract async update(): Promise<Array<Comment>>;
+  public abstract update(): Promise<Array<Comment>>;
 
 }
 
