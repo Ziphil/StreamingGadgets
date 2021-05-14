@@ -52,15 +52,13 @@ export class Main {
     });
     this.application.get("/interface/word-count", (request, response, next) => {
       let path = request.query.path as string;
-      let stream = readline.createInterface({input: fs.createReadStream(path)});
-      let count = 0;
-      stream.on("line", (line) => {
-        if (line.match(/^\*\s*(.+)\s*$/)) {
-          count ++;
+      fs.readdir(path, (error, names) => {
+        if (error) {
+          response.json(0).end();
+        } else {
+          let count = names.filter((name) => name.endsWith(".xdnw")).length;
+          response.json(count).end();
         }
-      });
-      stream.on("close", () => {
-        response.json(count - 5).end();
       });
     });
   }
