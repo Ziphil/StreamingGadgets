@@ -17,6 +17,10 @@ import {
   DummyCommentFetcherConfig
 } from "../../module/comment-fetcher/dummy";
 import {
+  TwitcastingCommentFetcher,
+  TwitcastingCommentFetcherConfig
+} from "../../module/comment-fetcher/twitcasting";
+import {
   YoutubeCommentFetcher,
   YoutubeCommentFetcherConfig
 } from "../../module/comment-fetcher/youtube";
@@ -35,6 +39,8 @@ export class CommentViewer extends Component<Props, State> {
     let rawFetchers = props.config.platforms.map((platformConfig) => {
       if (platformConfig.name === "youtube") {
         return new YoutubeCommentFetcher(platformConfig);
+      } else if (platformConfig.name === "twitcasting") {
+        return new TwitcastingCommentFetcher(platformConfig);
       } else if (platformConfig.name === "dummy") {
         return new DummyCommentFetcher(platformConfig);
       } else {
@@ -101,4 +107,4 @@ export type CommentViewerConfig = {
   platforms: Array<PlatformConfig>,
   interval: number
 };
-export type PlatformConfig = YoutubeCommentFetcherConfig | DummyCommentFetcherConfig;
+export type PlatformConfig = YoutubeCommentFetcherConfig | TwitcastingCommentFetcherConfig | DummyCommentFetcherConfig;

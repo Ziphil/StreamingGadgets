@@ -1,12 +1,15 @@
 //
 
+import axios from "axios";
 import parser from "body-parser";
 import express from "express";
 import {
   Express
 } from "express";
 import fs from "fs";
-import readline from "readline";
+import {
+  encode
+} from "js-base64";
 
 
 export class Main {
@@ -60,6 +63,20 @@ export class Main {
           response.json(count).end();
         }
       });
+    });
+    this.application.get("/interface/twitcasting", async (request, response, next) => {
+      let encodedSecret = encode(`${request.query.key}:${request.query.secret}`);
+      let headers = Object.fromEntries([
+        ["Accept", "application/json"],
+        ["X-Api-Version", "2.0"],
+        ["Authorization", `Basic ${encodedSecret}`]
+      ]);
+      try {
+        let data = await axios.get(`https://apiv2.twitcasting.tv/${request.query.path}`, {headers}).then((response) => response.data);
+        response.json(data).end();
+      } catch (error) {
+        response.status(500).end();
+      }
     });
   }
 
