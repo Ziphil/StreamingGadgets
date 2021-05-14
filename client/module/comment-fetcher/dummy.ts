@@ -16,7 +16,7 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
     let comments = [...Array(length)].map(() => {
       let author = DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
       let text = DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
-      let comment = new Comment(author, text);
+      let comment = new Comment("dummy", author, text);
       return comment;
     });
     return comments;

@@ -18,10 +18,12 @@ export abstract class CommentFetcher<C = unknown> {
 
 export class Comment {
 
+  public readonly platform: string;
   public readonly author: string;
   public readonly text: string;
 
-  public constructor(author: string, text: string) {
+  public constructor(platform: string, author: string, text: string) {
+    this.platform = platform;
     this.author = author;
     this.text = text;
   }

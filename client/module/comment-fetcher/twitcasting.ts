@@ -62,7 +62,7 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
           let author = item["from_user"]["name"];
           let text = item["message"];
           this.lastCommentId = item["id"];
-          return new Comment(author, text);
+          return new Comment("twitcasting", author, text);
         });
         return comments;
       } catch (error) {

@@ -73,7 +73,7 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
         let comments = items.map((item) => {
           let author = item["authorDetails"]["displayName"];
           let text = item["snippet"]["displayMessage"];
-          return new Comment(author, text);
+          return new Comment("youtube", author, text);
         });
         this.pageToken = nextPageToken;
         return comments;
