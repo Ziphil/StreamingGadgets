@@ -72,8 +72,11 @@ export class Main {
         ["Authorization", `Basic ${encodedSecret}`]
       ]);
       try {
-        let data = await axios.get(`https://apiv2.twitcasting.tv/${request.query.path}`, {headers}).then((response) => response.data);
-        response.json(data).end();
+        let result = await axios.get(`https://apiv2.twitcasting.tv/${request.query.path}`, {headers});
+        let data = result.data;
+        let remaining = result.headers["x-ratelimit-remaining"];
+        let resetDate = new Date(parseInt(result.headers["x-ratelimit-reset"]) * 1000).toString();
+        response.json({...data, remaining, resetDate}).end();
       } catch (error) {
         response.status(500).end();
       }

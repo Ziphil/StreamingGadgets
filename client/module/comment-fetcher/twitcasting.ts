@@ -19,6 +19,7 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
   }
 
   public async update(): Promise<Array<Comment>> {
+    await this.updateMovieId();
     let comments = await this.fetchComments();
     console.log({comments});
     return comments;
@@ -36,6 +37,14 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
       return movieId;
     } catch (error) {
       return undefined;
+    }
+  }
+
+  private async updateMovieId(): Promise<void> {
+    let movieId = await this.fetchMovieId();
+    if (this.movieId !== movieId) {
+      this.movieId = movieId;
+      this.lastCommentId = undefined;
     }
   }
 
