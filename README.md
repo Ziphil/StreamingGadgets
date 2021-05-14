@@ -40,6 +40,13 @@ http://localhost:8051/?path=(設定ファイルの絶対パス)
           "key": "*****",  // YouTube Data API のキー
           "videoId": "*****"  // 配信のビデオ ID
         },
+        // ツイキャス
+        {
+          "name": "twitcasting",
+          "key": "*****",  // TwitCasting APIv2 のクライアントキー
+          "secret": "*****",  // TwitCasting APIv2 のクライアントシークレット
+          "userId": "ziphil"  // ユーザー名
+        },
         // 描画テスト用のダミープラットフォーム
         {
           "name": "dummy"
