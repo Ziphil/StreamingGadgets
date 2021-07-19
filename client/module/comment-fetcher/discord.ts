@@ -27,12 +27,17 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
   }
 
   private async fetchComments(): Promise<Array<Comment>> {
+    let ignorePrefix = this.config.ignorePrefix;
     let rawComments = await axios.get("/interface/discord").then((response) => response.data) as Array<any>;
-    let comments = rawComments.map((rawComment) => {
+    let comments = [];
+    for (let rawComment of rawComments) {
       let author = rawComment.author.username;
       let text = rawComment.content;
-      return new Comment("discord", author, text);
-    });
+      if (ignorePrefix === undefined || !text.startsWith(ignorePrefix)) {
+        let comment = new Comment("discord", author, text);
+        comments.push(comment);
+      }
+    }
     return comments;
   }
 
@@ -42,5 +47,6 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
 export type DiscordCommentFetcherConfig = {
   name: "discord",
   key: string,
-  channelId: string
+  channelId: string,
+  ignorePrefix?: string
 };
