@@ -47,6 +47,12 @@ http://localhost:8051/?path=(設定ファイルの絶対パス)
           "secret": "*****",  // TwitCasting APIv2 のクライアントシークレット
           "userId": "ziphil"  // ユーザー名
         },
+        // Discord
+        {
+          "name": "discord",
+          "key": "*****",  // Discord bot のトークン
+          "channelId": "*****"  // コメントを取得するチャンネル ID
+        },
         // 描画テスト用のダミープラットフォーム
         {
           "name": "dummy"
