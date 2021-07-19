@@ -13,6 +13,10 @@ import {
   CommentFetcher
 } from "../../module/comment-fetcher/base";
 import {
+  DiscordCommentFetcher,
+  DiscordCommentFetcherConfig
+} from "../../module/comment-fetcher/discord";
+import {
   DummyCommentFetcher,
   DummyCommentFetcherConfig
 } from "../../module/comment-fetcher/dummy";
@@ -41,6 +45,8 @@ export class CommentViewer extends Component<Props, State> {
         return new YoutubeCommentFetcher(platformConfig);
       } else if (platformConfig.name === "twitcasting") {
         return new TwitcastingCommentFetcher(platformConfig);
+      } else if (platformConfig.name === "discord") {
+        return new DiscordCommentFetcher(platformConfig);
       } else if (platformConfig.name === "dummy") {
         return new DummyCommentFetcher(platformConfig);
       } else {
@@ -107,4 +113,4 @@ export type CommentViewerConfig = {
   platforms: Array<PlatformConfig>,
   interval: number
 };
-export type PlatformConfig = YoutubeCommentFetcherConfig | TwitcastingCommentFetcherConfig | DummyCommentFetcherConfig;
+export type PlatformConfig = YoutubeCommentFetcherConfig | TwitcastingCommentFetcherConfig | DiscordCommentFetcherConfig | DummyCommentFetcherConfig;

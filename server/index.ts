@@ -2,6 +2,10 @@
 
 import axios from "axios";
 import parser from "body-parser";
+import {
+  Client as DiscordClient,
+  Intents
+} from "discord.js";
 import express from "express";
 import {
   Express
@@ -15,6 +19,8 @@ import {
 export class Main {
 
   private application!: Express;
+  private discordClient: DiscordClient | null = null;
+  private discordComments: Array<unknown> = [];
 
   public main(): void {
     this.application = express();
@@ -80,6 +86,29 @@ export class Main {
       } catch (error) {
         response.status(500).end();
       }
+    });
+    this.application.get("/interface/discord/start", async (request, response, next) => {
+      let key = request.query.key as string;
+      let channelId = request.query.channelId;
+      if (this.discordClient !== null) {
+        this.discordClient.destroy();
+      }
+      let client = new DiscordClient({intents: Intents.ALL});
+      client.on("message", (message) => {
+        if (message.channel.id === channelId) {
+          let messageJson = message.toJSON() as any;
+          let authorJson = message.author.toJSON();
+          this.discordComments.push({...messageJson, author: authorJson});
+        }
+      });
+      this.discordClient = client;
+      await client.login(key);
+      response.json(true).end();
+    });
+    this.application.get("/interface/discord", (request, response, next) => {
+      let comments = this.discordComments;
+      this.discordComments = [];
+      response.json(comments).end();
     });
   }
 
