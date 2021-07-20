@@ -18,6 +18,9 @@ npm start
 ```
 http://localhost:8051/?path=(設定ファイルの絶対パス)
 ```
+デフォルトでは、上記の URL から返される HTML にはほとんど全くスタイルが指定されていません。
+HTML の各要素にはクラスが適宜指定されているので、これを利用して好みの見た目になるように各自で CSS ファイルを用意してください。
+用意した CSS ファイルは、設定ファイルから指定することで自動的に読み込まれるようになります。
 
 ## 設定ファイルの形式
 以下は設定ファイルの例です。
@@ -43,15 +46,17 @@ http://localhost:8051/?path=(設定ファイルの絶対パス)
         // ツイキャス
         {
           "name": "twitcasting",
-          "key": "*****",  // TwitCasting APIv2 のクライアントキー
-          "secret": "*****",  // TwitCasting APIv2 のクライアントシークレット
-          "userId": "ziphil"  // ユーザー名
+          "key": "*****",  // ツイキャス APIv2 のクライアント ID
+          "secret": "*****",  // ツイキャス APIv2 のクライアントシークレット
+          "userId": "ziphil"  // ユーザー ID
         },
         // Discord
         {
           "name": "discord",
           "key": "*****",  // Discord bot のトークン
-          "channelId": "*****"  // コメントを取得するチャンネル ID
+          "channelId": "*****",  // コメントを取得するチャンネル ID
+          "firstMessage": "コメント取得を開始します",  // コメント取得開始時の投稿メッセージ (省略可)
+          "ignorePrefix": ";"  // この文字から始まる投稿が無視される (省略可)
         },
         // 描画テスト用のダミープラットフォーム
         {
@@ -73,3 +78,4 @@ http://localhost:8051/?path=(設定ファイルの絶対パス)
 
 ## 参考文献
 - [YouTube Data API キーの取得方法](https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca)
+- [ツイキャス APIv2 による開発の流れ](https://twitcasting.tv/indexapi.php)
