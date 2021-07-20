@@ -110,7 +110,12 @@ type State = {
 
 export type CommentViewerConfig = {
   name: "commentViewer",
-  platforms: Array<PlatformConfig>,
+  platforms: Array<PlatformConfigs[keyof PlatformConfigs]>,
   interval: number
 };
-export type PlatformConfig = YoutubeCommentFetcherConfig | TwitcastingCommentFetcherConfig | DiscordCommentFetcherConfig | DummyCommentFetcherConfig;
+export type PlatformConfigs = {
+  youtube: YoutubeCommentFetcherConfig,
+  twitcasting: TwitcastingCommentFetcherConfig,
+  discord: DiscordCommentFetcherConfig,
+  dummy: DummyCommentFetcherConfig
+};
