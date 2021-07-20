@@ -31,7 +31,7 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
     let rawComments = await axios.get("/interface/discord").then((response) => response.data) as Array<any>;
     let comments = [];
     for (let rawComment of rawComments) {
-      let author = rawComment.author.username;
+      let author = rawComment.member.displayName;
       let text = rawComment.content;
       if (ignorePrefix === undefined || !text.startsWith(ignorePrefix)) {
         let comment = new Comment("discord", author, text);

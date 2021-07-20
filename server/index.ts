@@ -4,7 +4,8 @@ import axios from "axios";
 import parser from "body-parser";
 import {
   Client as DiscordClient,
-  Intents
+  Intents,
+  Snowflake
 } from "discord.js";
 import express from "express";
 import {
@@ -89,7 +90,7 @@ export class Main {
     });
     this.application.get("/interface/discord/start", async (request, response, next) => {
       let key = request.query.key as string;
-      let channelId = request.query.channelId;
+      let channelId = request.query.channelId as Snowflake;
       if (this.discordClient !== null) {
         this.discordClient.destroy();
       }
@@ -98,7 +99,8 @@ export class Main {
         if (message.channel.id === channelId) {
           let messageJson = message.toJSON() as any;
           let authorJson = message.author.toJSON();
-          this.discordComments.push({...messageJson, author: authorJson});
+          let memberJson = message.member?.toJSON();
+          this.discordComments.push({...messageJson, author: authorJson, member: memberJson});
         }
       });
       this.discordClient = client;
