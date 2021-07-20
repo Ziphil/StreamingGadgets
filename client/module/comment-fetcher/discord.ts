@@ -22,7 +22,8 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
   private async prepareClient(): Promise<void> {
     let key = this.config.key;
     let channelId = this.config.channelId;
-    let params = {key, channelId};
+    let firstMessage = this.config.firstMessage;
+    let params = {key, channelId, firstMessage};
     await axios.get("/interface/discord/start", {params});
   }
 
@@ -48,5 +49,6 @@ export type DiscordCommentFetcherConfig = {
   name: "discord",
   key: string,
   channelId: string,
+  firstMessage?: string,
   ignorePrefix?: string
 };

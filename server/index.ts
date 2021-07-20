@@ -5,7 +5,8 @@ import parser from "body-parser";
 import {
   Client as DiscordClient,
   Intents,
-  Snowflake
+  Snowflake,
+  TextChannel
 } from "discord.js";
 import express from "express";
 import {
@@ -91,10 +92,19 @@ export class Main {
     this.application.get("/interface/discord/start", async (request, response, next) => {
       let key = request.query.key as string;
       let channelId = request.query.channelId as Snowflake;
+      let firstMessage = request.query.firstMessage as string | undefined;
       if (this.discordClient !== null) {
         this.discordClient.destroy();
       }
       let client = new DiscordClient({intents: Intents.ALL});
+      this.discordClient = client;
+      await client.login(key);
+      if (firstMessage !== undefined) {
+        let channel = await client.channels.fetch(channelId);
+        if (channel instanceof TextChannel) {
+          await channel.send(firstMessage);
+        }
+      }
       client.on("message", (message) => {
         if (message.channel.id === channelId) {
           let messageJson = message.toJSON() as any;
@@ -103,8 +113,6 @@ export class Main {
           this.discordComments.push({...messageJson, author: authorJson, member: memberJson});
         }
       });
-      this.discordClient = client;
-      await client.login(key);
       response.json(true).end();
     });
     this.application.get("/interface/discord", (request, response, next) => {
