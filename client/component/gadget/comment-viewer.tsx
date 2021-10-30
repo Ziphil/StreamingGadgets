@@ -89,8 +89,10 @@ export class CommentViewer extends Component<Props, State> {
       return commentNode;
     });
     let node = (
-      <div className="gadget comment-viewer" id={this.state.id}>
-        {commentNodes}
+      <div className="gadget comment-viewer">
+        <div className="scroll" id={this.state.id}>
+          {commentNodes}
+        </div>
       </div>
     );
     return node;
