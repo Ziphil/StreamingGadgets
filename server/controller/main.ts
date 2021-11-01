@@ -35,7 +35,6 @@ export class MainController extends Controller {
   @get("/config")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     let path = request.query.path as string;
-    console.log(path);
     fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
       if (error) {
         next(error);
