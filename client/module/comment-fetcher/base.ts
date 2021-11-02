@@ -1,5 +1,9 @@
 //
 
+import {
+  ReactNode
+} from "react";
+
 
 export abstract class CommentFetcher<C extends CommentFetcherConfig = CommentFetcherConfig> {
 
@@ -20,14 +24,14 @@ export abstract class CommentFetcher<C extends CommentFetcherConfig = CommentFet
 
 export class Comment {
 
-  public readonly platform: string;
-  public readonly author: string;
-  public readonly text: string;
+  public readonly platformName: string;
+  public readonly author: ReactNode;
+  public readonly text: ReactNode;
 
-  public constructor(platform: string, author: string, text: string) {
-    this.platform = platform;
-    this.author = author;
-    this.text = text;
+  public constructor(platform: string, author?: ReactNode, text?: ReactNode) {
+    this.platformName = platform;
+    this.author = author ?? null;
+    this.text = text ?? null;
   }
 
 }
