@@ -41,14 +41,16 @@ HTML の各要素にはクラスが適宜指定されているので、これを
         {
           "name": "youtube",
           "key": "*****",  // YouTube Data API のキー
-          "videoId": "*****"  // 配信のビデオ ID
+          "videoId": "*****",  // 配信のビデオ ID
+          "interval": 5000  // 更新間隔 (ミリ秒)
         },
         // ツイキャス
         {
           "name": "twitcasting",
           "key": "*****",  // ツイキャス APIv2 のクライアント ID
           "secret": "*****",  // ツイキャス APIv2 のクライアントシークレット
-          "userId": "ziphil"  // ユーザー ID
+          "userId": "ziphil",  // ユーザー ID
+          "interval": 5000  // 更新間隔 (ミリ秒)
         },
         // Discord
         {
@@ -56,19 +58,20 @@ HTML の各要素にはクラスが適宜指定されているので、これを
           "key": "*****",  // Discord bot のトークン
           "channelId": "*****",  // コメントを取得するチャンネル ID
           "firstMessage": "コメント取得を開始します",  // コメント取得開始時の投稿メッセージ (省略可)
-          "ignorePrefix": ";"  // この文字から始まる投稿が無視される (省略可)
+          "ignorePrefix": ";",  // この文字から始まる投稿が無視される (省略可)
+          "interval": 5000  // 更新間隔 (ミリ秒)
         },
         // 描画テスト用のダミープラットフォーム
         {
-          "name": "dummy"
+          "name": "dummy",
+          "interval": 5000  // 更新間隔 (ミリ秒)
         }
-      ],
-      "interval": 5000  // 更新間隔 (ミリ秒)
+      ]
     },
     // 辞書の単語数表示
     {
       "name": "wordCounter",
-      "path": "*****.xdc",  // ファイル名 (絶対パス)
+      "path": "*****",  // ディレクトリ名 (絶対パス)
       "interval": 10000  // 更新間隔 (ミリ秒)
     }
   ],
