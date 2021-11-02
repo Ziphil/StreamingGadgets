@@ -81,4 +81,5 @@ export type TwitcastingCommentFetcherConfig = {
   key: string,
   secret: string,
   userId: string,
+  interval: number
 };

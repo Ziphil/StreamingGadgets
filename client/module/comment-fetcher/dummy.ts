@@ -37,5 +37,6 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
 
 
 export type DummyCommentFetcherConfig = {
-  name: "dummy"
+  name: "dummy",
+  interval: number
 };

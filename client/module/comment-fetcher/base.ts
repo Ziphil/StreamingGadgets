@@ -1,12 +1,14 @@
 //
 
 
-export abstract class CommentFetcher<C = unknown> {
+export abstract class CommentFetcher<C extends CommentFetcherConfig = CommentFetcherConfig> {
 
   protected readonly config: C;
+  public readonly interval: number;
 
   public constructor(config: C) {
     this.config = config;
+    this.interval = config.interval;
   }
 
   public abstract start(): Promise<void>;
@@ -29,3 +31,9 @@ export class Comment {
   }
 
 }
+
+
+export type CommentFetcherConfig = {
+  name: string,
+  interval: number
+};

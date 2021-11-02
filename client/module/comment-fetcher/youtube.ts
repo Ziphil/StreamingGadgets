@@ -92,5 +92,6 @@ export type YoutubeCommentFetcherConfig = {
   name: "youtube",
   key: string,
   channelId?: string,
-  videoId?: string
+  videoId?: string,
+  interval: number
 };

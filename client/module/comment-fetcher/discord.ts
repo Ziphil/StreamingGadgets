@@ -50,5 +50,6 @@ export type DiscordCommentFetcherConfig = {
   key: string,
   channelId: string,
   firstMessage?: string,
-  ignorePrefix?: string
+  ignorePrefix?: string,
+  interval: number
 };

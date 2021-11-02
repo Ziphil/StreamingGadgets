@@ -38,6 +38,8 @@ export class CommentViewer extends Component<Props, State> {
     id: ""
   };
 
+  private virtualComments: Array<Comment> = [];
+
   public constructor(props: Props) {
     super(props);
     let rawFetchers = props.config.platforms.map((platformConfig) => {
@@ -59,8 +61,9 @@ export class CommentViewer extends Component<Props, State> {
 
   public async componentDidMount(): Promise<void> {
     await this.start();
-    let interval = this.props.config.interval;
-    setInterval(this.update.bind(this), interval);
+    for (let fetcher of this.state.fetchers) {
+      setInterval(() => this.update(fetcher), fetcher.interval);
+    }
   }
 
   private async start(): Promise<void> {
@@ -68,10 +71,10 @@ export class CommentViewer extends Component<Props, State> {
     await Promise.all(promises);
   }
 
-  private async update(): Promise<void> {
-    let promises = this.state.fetchers.map((fetcher) => fetcher.update());
-    let addedComments = (await Promise.all(promises)).flat();
-    let comments = [...this.state.comments, ...addedComments];
+  private async update(fetcher: CommentFetcher): Promise<void> {
+    let addedComments = await fetcher.update();
+    this.virtualComments.push(...addedComments);
+    let comments = this.virtualComments;
     this.setState({comments}, () => {
       let element = document.getElementById(this.state.id)!;
       element.scrollTop = element.scrollHeight;
