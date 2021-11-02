@@ -28,8 +28,8 @@ export class Comment {
   public readonly author: ReactNode;
   public readonly text: ReactNode;
 
-  public constructor(platform: string, author?: ReactNode, text?: ReactNode) {
-    this.platformName = platform;
+  public constructor(platformName: string, author?: ReactNode, text?: ReactNode) {
+    this.platformName = platformName;
     this.author = author ?? null;
     this.text = text ?? null;
   }
