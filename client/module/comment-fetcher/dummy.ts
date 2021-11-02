@@ -12,10 +12,11 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
   }
 
   public async update(): Promise<Array<Comment>> {
+    let config = this.config;
     let length = Math.floor(Math.random() * 3);
     let comments = [...Array(length)].map(() => {
-      let author = DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
-      let text = DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
+      let author = (config.authorPrefix ?? "") + DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
+      let text = (config.textPrefix ?? "") + DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
       let comment = new Comment("dummy", author, text);
       return comment;
     });
@@ -38,5 +39,7 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
 
 export type DummyCommentFetcherConfig = {
   name: "dummy",
+  authorPrefix?: string,
+  textPrefix?: string,
   interval: number
 };
