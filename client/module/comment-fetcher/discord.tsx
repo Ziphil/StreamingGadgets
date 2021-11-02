@@ -20,7 +20,6 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
 
   public async update(): Promise<Array<Comment>> {
     let comments = await this.fetchComments();
-    console.log({comments});
     return comments;
   }
 
