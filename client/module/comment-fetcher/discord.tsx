@@ -28,12 +28,12 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
     let channelId = this.config.channelId;
     let firstMessage = this.config.firstMessage;
     let params = {key, channelId, firstMessage};
-    await axios.get("/interface/discord/start", {params});
+    await axios.get("/api/comment-viewer/discord/start", {params});
   }
 
   private async fetchComments(): Promise<Array<Comment>> {
     let ignorePrefix = this.config.ignorePrefix;
-    let rawComments = await axios.get("/interface/discord").then((response) => response.data) as Array<{content: string, [key: string]: any}>;
+    let rawComments = await axios.get("/api/comment-viewer/discord").then((response) => response.data) as Array<{content: string, [key: string]: any}>;
     let comments = [];
     for (let rawComment of rawComments) {
       let author = rawComment.member.displayName;

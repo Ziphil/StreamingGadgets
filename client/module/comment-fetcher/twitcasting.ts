@@ -32,7 +32,7 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
     let path = `users/${userId}/current_live`;
     let params = {key, secret, path};
     try {
-      let data = await axios.get("/interface/twitcasting", {params}).then((response) => response.data);
+      let data = await axios.get("/api/comment-viewer/twitcasting", {params}).then((response) => response.data);
       let movieId = data["movie"]["id"];
       return movieId;
     } catch (error) {
@@ -56,7 +56,7 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
       let path = `movies/${movieId}/comments?limit=50` + ((this.lastCommentId !== undefined) ? `&slice_id=${this.lastCommentId}` : "");
       let params = {key, secret, path};
       try {
-        let data = await axios.get("/interface/twitcasting", {params}).then((response) => response.data);
+        let data = await axios.get("/api/comment-viewer/twitcasting", {params}).then((response) => response.data);
         let items = data["comments"] as Array<any>;
         let comments = items.reverse().map((item) => {
           let author = item["from_user"]["name"];

@@ -72,7 +72,7 @@ let config = {
     historyApiFallback: true,
     contentBase: path.join(__dirname, "dist", "client"),
     proxy: {
-      "/interface": "http://localhost:8051"
+      "/api": "http://localhost:8051"
     }
   },
   plugins: [

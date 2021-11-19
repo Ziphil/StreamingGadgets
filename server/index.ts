@@ -8,6 +8,9 @@ import {
 import {
   MainController
 } from "./controller/main";
+import {
+  SystemController
+} from "./controller/system";
 
 
 export class Main {
@@ -32,6 +35,7 @@ export class Main {
 
   private setupControllers(): void {
     MainController.use(this.application);
+    SystemController.use(this.application);
   }
 
   private setupStatic(): void {

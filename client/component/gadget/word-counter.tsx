@@ -32,7 +32,7 @@ export class WordCounter extends Component<Props, State> {
     let path = this.props.config.path;
     let params = {path};
     try {
-      let count = await axios.get("/interface/word-count", {params}).then((response) => response.data);
+      let count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
       this.setState({count});
     } catch (error) {
     }

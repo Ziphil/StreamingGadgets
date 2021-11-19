@@ -26,43 +26,13 @@ import {
 } from "./decorator";
 
 
-@controller("/interface")
+@controller("/api")
 export class MainController extends Controller {
 
   private discordClient: DiscordClient | null = null;
   private discordComments: Array<unknown> = [];
 
-  @get("/config")
-  public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
-    fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
-      if (error) {
-        next(error);
-      } else {
-        response.type("application/json").send(config).end();
-      }
-    });
-  }
-
-  @get("/style")
-  public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
-    fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
-      if (error) {
-        response.type("text/css").send("").end();
-      } else {
-        response.type("text/css").send(config).end();
-      }
-    });
-  }
-
-  @get("/local")
-  public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
-    response.sendFile(path);
-  }
-
-  @get("/word-count")
+  @get("/word-counter/count")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     let path = request.query.path as string;
     fs.readdir(path, (error, names) => {
@@ -75,7 +45,7 @@ export class MainController extends Controller {
     });
   }
 
-  @get("/twitcasting")
+  @get("/comment-viewer/twitcasting")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     let encodedSecret = encode(`${request.query.key}:${request.query.secret}`);
     let headers = Object.fromEntries([
@@ -94,7 +64,7 @@ export class MainController extends Controller {
     }
   }
 
-  @get("/discord/start")
+  @get("/comment-viewer/discord/start")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     let key = request.query.key as string;
     let channelId = request.query.channelId as Snowflake;
@@ -122,7 +92,7 @@ export class MainController extends Controller {
     response.json(true).end();
   }
 
-  @get("/discord")
+  @get("/comment-viewer/discord")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     let comments = this.discordComments;
     this.discordComments = [];
