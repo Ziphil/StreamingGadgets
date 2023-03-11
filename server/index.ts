@@ -27,8 +27,8 @@ export class Main {
 
   // リクエストボディをパースするミドルウェアの設定をします。
   private setupBodyParsers(): void {
-    let urlencodedParser = parser.urlencoded({extended: false});
-    let jsonParser = parser.json();
+    const urlencodedParser = parser.urlencoded({extended: false});
+    const jsonParser = parser.json();
     this.application.use(urlencodedParser);
     this.application.use(jsonParser);
   }
@@ -51,5 +51,5 @@ export class Main {
 }
 
 
-let main = new Main();
+const main = new Main();
 main.main();

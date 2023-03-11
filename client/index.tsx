@@ -22,5 +22,5 @@ export class Main {
 }
 
 
-let main = new Main();
+const main = new Main();
 main.main();

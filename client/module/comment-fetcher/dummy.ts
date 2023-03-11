@@ -12,25 +12,25 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
   }
 
   public async update(): Promise<Array<Comment>> {
-    let config = this.config;
-    let length = Math.floor(Math.random() * 3);
-    let comments = [...Array(length)].map(() => {
-      let author = (config.authorPrefix ?? "") + DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
-      let text = (config.textPrefix ?? "") + DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
-      let comment = new Comment("dummy", author, text);
+    const config = this.config;
+    const length = Math.floor(Math.random() * 3);
+    const comments = [...Array(length)].map(() => {
+      const author = (config.authorPrefix ?? "") + DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
+      const text = (config.textPrefix ?? "") + DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
+      const comment = new Comment("dummy", author, text);
       return comment;
     });
     return comments;
   }
 
   private static createRandomString(length: number): string {
-    let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let string = [...Array(length)].map(() => chars[Math.floor(Math.random() * chars.length)]).join("");
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const string = [...Array(length)].map(() => chars[Math.floor(Math.random() * chars.length)]).join("");
     return string;
   }
 
   private static createRandomSentence(maxWordLength: number, wordSize: number): string {
-    let string = [...Array(wordSize)].map(() => DummyCommentFetcher.createRandomString(Math.floor(Math.random() * maxWordLength) + 1)).join(" ");
+    const string = [...Array(wordSize)].map(() => DummyCommentFetcher.createRandomString(Math.floor(Math.random() * maxWordLength) + 1)).join(" ");
     return string;
   }
 

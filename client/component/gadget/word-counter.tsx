@@ -28,37 +28,37 @@ export class WordCounter extends Component<Props, State> {
   }
 
   public async componentDidMount(): Promise<void> {
-    let interval = this.props.config.interval;
+    const interval = this.props.config.interval;
     setInterval(this.update.bind(this), interval);
   }
 
   private changeType(): void {
-    let type = this.state.type;
+    const type = this.state.type;
     this.setState({type: (type === "word") ? "tokipona" : "word"});
   }
 
   private async update(): Promise<void> {
-    let path = this.props.config.path;
-    let params = {path};
+    const path = this.props.config.path;
+    const params = {path};
     try {
-      let count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
+      const count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
       this.setState({count});
     } catch (error) {
     }
   }
 
   public render(): ReactNode {
-    let type = this.state.type;
-    let count = this.state.count;
-    let value = (type === "word") ? count : count / 120;
-    let fractionalLength = (type === "word") ? 0 : 2;
-    let unit = (type === "word") ? "words" : "TP";
-    let valueNode = formatNumber(value, fractionalLength, {
+    const type = this.state.type;
+    const count = this.state.count;
+    const value = (type === "word") ? count : count / 120;
+    const fractionalLength = (type === "word") ? 0 : 2;
+    const unit = (type === "word") ? "words" : "TP";
+    const valueNode = formatNumber(value, fractionalLength, {
       integerPart: (string) => <span className="digit integer">{string}</span>,
       fractionalPart: (string) => <span className="digit fractional">{string}</span>,
       decimal: (string) => <span className="decimal">{string}</span>
     });
-    let node = (
+    const node = (
       <div className="gadget word-counter" id={this.state.id} onClick={this.changeType.bind(this)}>
         <div className="value">{valueNode}</div>
         <div className="unit">{unit}</div>

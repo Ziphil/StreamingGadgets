@@ -19,25 +19,25 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
   }
 
   public async update(): Promise<Array<Comment>> {
-    let comments = await this.fetchComments();
+    const comments = await this.fetchComments();
     return comments;
   }
 
   private async prepareClient(): Promise<void> {
-    let key = this.config.key;
-    let channelId = this.config.channelId;
-    let firstMessage = this.config.firstMessage;
-    let params = {key, channelId, firstMessage};
+    const key = this.config.key;
+    const channelId = this.config.channelId;
+    const firstMessage = this.config.firstMessage;
+    const params = {key, channelId, firstMessage};
     await axios.get("/api/comment-viewer/discord/start", {params});
   }
 
   private async fetchComments(): Promise<Array<Comment>> {
-    let ignorePrefix = this.config.ignorePrefix;
-    let rawComments = await axios.get("/api/comment-viewer/discord").then((response) => response.data) as Array<{content: string, [key: string]: any}>;
-    let comments = [];
-    for (let rawComment of rawComments) {
-      let author = rawComment.member.displayName;
-      let text = rawComment.content.split(/(<(?:\:|#|@!).+?>)/).map((string, index) => {
+    const ignorePrefix = this.config.ignorePrefix;
+    const rawComments = await axios.get("/api/comment-viewer/discord").then((response) => response.data) as Array<{content: string, [key: string]: any}>;
+    const comments = [];
+    for (const rawComment of rawComments) {
+      const author = rawComment.member.displayName;
+      const text = rawComment.content.split(/(<(?:\:|#|@!).+?>)/).map((string, index) => {
         if (index % 2 === 1) {
           return <Fragment key={index}>{this.parseSpecialTag(string)}</Fragment>;
         } else {
@@ -45,7 +45,7 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
         }
       });
       if (ignorePrefix === undefined || !(typeof text[0] === "string" && text[0].startsWith(ignorePrefix))) {
-        let comment = new Comment("discord", author, text);
+        const comment = new Comment("discord", author, text);
         comments.push(comment);
       }
     }
@@ -53,13 +53,13 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
   }
 
   private parseSpecialTag(string: string): ReactNode {
-    let match = string.match(/^<(\:|#|@!)(.+?)>$/);
+    const match = string.match(/^<(\:|#|@!)(.+?)>$/);
     if (match !== null) {
       if (match[1] === ":") {
-        let idMatch = match[2].match(/^(.+?):(\d+?)$/);
+        const idMatch = match[2].match(/^(.+?):(\d+?)$/);
         if (idMatch !== null) {
-          let id = idMatch[2];
-          let node = <img className="discord-emoji" src={`https://cdn.discordapp.com/emojis/${id}`}/>;
+          const id = idMatch[2];
+          const node = <img className="discord-emoji" src={`https://cdn.discordapp.com/emojis/${id}`}/>;
           return node;
         } else {
           return "";

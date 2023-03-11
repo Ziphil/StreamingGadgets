@@ -25,10 +25,10 @@ export class Root extends Component<Props, State> {
   };
 
   public async componentDidMount(): Promise<void> {
-    let path = queryParser.parse(window.location.search).path;
-    let params = {path};
+    const path = queryParser.parse(window.location.search).path;
+    const params = {path};
     try {
-      let config = await axios.get<RootConfig>("/api/config", {params}).then((response) => response.data);
+      const config = await axios.get<RootConfig>("/api/config", {params}).then((response) => response.data);
       console.log({config});
       this.appendStyleElement(config.cssPath);
       this.setState({config});
@@ -38,7 +38,7 @@ export class Root extends Component<Props, State> {
 
   private appendStyleElement(path: string | undefined): void {
     if (path !== undefined) {
-      let element = document.createElement("link");
+      const element = document.createElement("link");
       element.href = "/api/style?path=" + encodeURIComponent(path);
       element.rel = "stylesheet";
       document.head.appendChild(element);
@@ -46,7 +46,7 @@ export class Root extends Component<Props, State> {
   }
 
   public render(): ReactNode {
-    let gadgetNodes = this.state.config.gadgets.map((gadgetConfig, index) => {
+    const gadgetNodes = this.state.config.gadgets.map((gadgetConfig, index) => {
       if (gadgetConfig.name === "commentViewer") {
         return <CommentViewer key={index} config={gadgetConfig}/>;
       } else if (gadgetConfig.name === "wordCounter") {
@@ -55,7 +55,7 @@ export class Root extends Component<Props, State> {
         return undefined;
       }
     });
-    let node = (
+    const node = (
       <Fragment>
         {gadgetNodes}
       </Fragment>

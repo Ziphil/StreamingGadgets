@@ -4,7 +4,7 @@ import path from "path";
 import externals from "webpack-node-externals";
 
 
-let config = {
+const config = {
   entry: ["./server/index.ts"],
   output: {
     path: path.join(__dirname, "dist"),

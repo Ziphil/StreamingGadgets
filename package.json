@@ -5,16 +5,16 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "develop": "run-p develop:client develop:server develop:nodemon",
+    "develop": "run-p develop:client develop:server:webpack develop:server:nodemon",
     "develop:client": "webpack-dev-server --mode development --devtool inline-source-map --config webpack-client.ts --hot",
-    "develop:server": "webpack --mode development --config webpack-server.ts --watch",
-    "develop:nodemon": "nodemon --inspect -L dist/index.js",
+    "develop:server:webpack": "webpack --mode development --config webpack-server.ts --watch",
+    "develop:server:nodemon": "nodemon --inspect -L dist/index.js",
     "build": "run-s build:client build:server",
     "build:client": "webpack --mode production --config webpack-client.ts",
     "build:server": "webpack --mode production --config webpack-server.ts",
     "start": "node dist/index.js",
-    "command:tsnode": "ts-node",
-    "command:tsc": "tsc"
+    "lint": "eslint client/**/*.ts client/**/*.tsx server/**/*.ts",
+    "lint:fix": "eslint --fix client/**/*.ts client/**/*.tsx server/**/*.ts"
   },
   "eslintConfig": {
     "extends": "ziphil",

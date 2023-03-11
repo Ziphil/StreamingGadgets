@@ -13,28 +13,28 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
   private pageToken?: string;
 
   public async start(): Promise<void> {
-    let videoId = await this.fetchVideoId();
-    let liveChatId = (videoId !== undefined) ? await this.fetchLiveChatId(videoId) : undefined;
+    const videoId = await this.fetchVideoId();
+    const liveChatId = (videoId !== undefined) ? await this.fetchLiveChatId(videoId) : undefined;
     this.liveChatId = liveChatId;
     console.log({videoId, liveChatId});
   }
 
   public async update(): Promise<Array<Comment>> {
-    let comments = await this.fetchComments();
+    const comments = await this.fetchComments();
     console.log({comments});
     return comments;
   }
 
   private async fetchVideoId(): Promise<string | undefined> {
     if (this.config.videoId !== undefined) {
-      let videoId = this.config.videoId;
+      const videoId = this.config.videoId;
       return videoId;
     } else if (this.config.channelId !== undefined) {
-      let key = this.config.key;
-      let channelId = this.config.channelId;
-      let params = {key, channelId, part: "snippet", type: "video", eventType: "live"};
+      const key = this.config.key;
+      const channelId = this.config.channelId;
+      const params = {key, channelId, part: "snippet", type: "video", eventType: "live"};
       try {
-        let data = await axios.get("https://www.googleapis.com/youtube/v3/search", {params}).then((response) => response.data);
+        const data = await axios.get("https://www.googleapis.com/youtube/v3/search", {params}).then((response) => response.data);
         if (data["items"].length > 0) {
           return data["items"][0]["id"]["videoId"];
         } else {
@@ -49,10 +49,10 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
   }
 
   private async fetchLiveChatId(videoId: string): Promise<string | undefined> {
-    let key = this.config.key;
-    let id = videoId;
-    let params = {key, id, part: "liveStreamingDetails"};
-    let data = await axios.get("https://www.googleapis.com/youtube/v3/videos", {params}).then((response) => response.data);
+    const key = this.config.key;
+    const id = videoId;
+    const params = {key, id, part: "liveStreamingDetails"};
+    const data = await axios.get("https://www.googleapis.com/youtube/v3/videos", {params}).then((response) => response.data);
     if (data["items"].length > 0) {
       return data["items"][0]["liveStreamingDetails"]["activeLiveChatId"];
     } else {
@@ -62,17 +62,17 @@ export class YoutubeCommentFetcher extends CommentFetcher<YoutubeCommentFetcherC
 
   private async fetchComments(): Promise<Array<Comment>> {
     if (this.liveChatId !== undefined) {
-      let key = this.config.key;
-      let liveChatId = this.liveChatId;
-      let pageToken = this.pageToken;
-      let params = {key, liveChatId, pageToken, part: "id,snippet,authorDetails"};
+      const key = this.config.key;
+      const liveChatId = this.liveChatId;
+      const pageToken = this.pageToken;
+      const params = {key, liveChatId, pageToken, part: "id,snippet,authorDetails"};
       try {
-        let data = await axios.get("https://www.googleapis.com/youtube/v3/liveChat/messages", {params}).then((response) => response.data);
-        let items = data["items"] as Array<any>;
-        let nextPageToken = data["nextPageToken"];
-        let comments = items.map((item) => {
-          let author = item["authorDetails"]["displayName"];
-          let text = item["snippet"]["displayMessage"];
+        const data = await axios.get("https://www.googleapis.com/youtube/v3/liveChat/messages", {params}).then((response) => response.data);
+        const items = data["items"] as Array<any>;
+        const nextPageToken = data["nextPageToken"];
+        const comments = items.map((item) => {
+          const author = item["authorDetails"]["displayName"];
+          const text = item["snippet"]["displayMessage"];
           return new Comment("youtube", author, text);
         });
         this.pageToken = nextPageToken;

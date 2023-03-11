@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 
 
-let config = {
+const config = {
   entry: ["babel-polyfill", "./client/index.tsx"],
   output: {
     path: path.join(__dirname, "dist", "client"),

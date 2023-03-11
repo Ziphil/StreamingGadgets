@@ -20,7 +20,7 @@ export class SystemController extends Controller {
 
   @get("/config")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
+    const path = request.query.path as string;
     fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
       if (error) {
         next(error);
@@ -32,7 +32,7 @@ export class SystemController extends Controller {
 
   @get("/style")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
+    const path = request.query.path as string;
     fs.readFile(path, {encoding: "utf-8"}, (error, config) => {
       if (error) {
         response.type("text/css").send("").end();
@@ -44,7 +44,7 @@ export class SystemController extends Controller {
 
   @get("/local")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    let path = request.query.path as string;
+    const path = request.query.path as string;
     response.sendFile(path);
   }
 

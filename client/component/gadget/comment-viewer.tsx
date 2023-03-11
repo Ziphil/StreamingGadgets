@@ -42,7 +42,7 @@ export class CommentViewer extends Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    let rawFetchers = props.config.platforms.map((platformConfig) => {
+    const rawFetchers = props.config.platforms.map((platformConfig) => {
       if (platformConfig.name === "youtube") {
         return new YoutubeCommentFetcher(platformConfig);
       } else if (platformConfig.name === "twitcasting") {
@@ -61,29 +61,29 @@ export class CommentViewer extends Component<Props, State> {
 
   public async componentDidMount(): Promise<void> {
     await this.start();
-    for (let fetcher of this.state.fetchers) {
+    for (const fetcher of this.state.fetchers) {
       setInterval(() => this.update(fetcher), fetcher.interval);
     }
   }
 
   private async start(): Promise<void> {
-    let promises = this.state.fetchers.map((fetcher) => fetcher.start());
+    const promises = this.state.fetchers.map((fetcher) => fetcher.start());
     await Promise.all(promises);
   }
 
   private async update(fetcher: CommentFetcher): Promise<void> {
-    let addedComments = await fetcher.update();
+    const addedComments = await fetcher.update();
     this.virtualComments.push(...addedComments);
-    let comments = this.virtualComments;
+    const comments = this.virtualComments;
     this.setState({comments}, () => {
-      let element = document.getElementById(this.state.id)!;
+      const element = document.getElementById(this.state.id)!;
       element.scrollTop = element.scrollHeight;
     });
   }
 
   public render(): ReactNode {
-    let commentNodes = this.state.comments.map((comment, index) => {
-      let commentNode = (
+    const commentNodes = this.state.comments.map((comment, index) => {
+      const commentNode = (
         <div className={`comment ${comment.platformName}`} key={index}>
           <span className="author">{comment.author}</span>
           <span className="text">{comment.text}</span>
@@ -91,7 +91,7 @@ export class CommentViewer extends Component<Props, State> {
       );
       return commentNode;
     });
-    let node = (
+    const node = (
       <div className="gadget comment-viewer">
         <div className="scroll" id={this.state.id}>
           {commentNodes}
