@@ -25,7 +25,6 @@ export class Main {
     this.listen();
   }
 
-  // リクエストボディをパースするミドルウェアの設定をします。
   private setupBodyParsers(): void {
     const urlencodedParser = parser.urlencoded({extended: false});
     const jsonParser = parser.json();
