@@ -3,7 +3,7 @@
 import axios from "axios";
 import {
   Client as DiscordClient,
-  Intents,
+  GatewayIntentBits,
   Snowflake,
   TextChannel
 } from "discord.js";
@@ -71,7 +71,11 @@ export class MainController extends Controller {
     if (this.discordClient !== null) {
       this.discordClient.destroy();
     }
-    const client = new DiscordClient({intents: Intents.ALL});
+    const client = new DiscordClient({intents: [
+      GatewayIntentBits["Guilds"],
+      GatewayIntentBits["GuildMessages"],
+      GatewayIntentBits["MessageContent"]
+    ]});
     this.discordClient = client;
     await client.login(key);
     if (firstMessage !== undefined) {
@@ -80,9 +84,9 @@ export class MainController extends Controller {
         await channel.send(firstMessage);
       }
     }
-    client.on("message", (message) => {
+    client.on("messageCreate", (message) => {
       if (message.channel.id === channelId) {
-        const messageJson = message.toJSON() as any;
+        const messageJson = message.toJSON() as {[key: string]: unknown};
         const authorJson = message.author.toJSON();
         const memberJson = message.member?.toJSON();
         this.discordComments.push({...messageJson, author: authorJson, member: memberJson});

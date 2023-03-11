@@ -6,81 +6,78 @@ import {
 } from "nanoid";
 import * as react from "react";
 import {
-  Component,
-  ReactNode
+  useCallback,
+  useState
 } from "react";
+import {
+  useMount
+} from "react-use";
 import {
   formatNumber
 } from "../../module/format-number";
+import {
+  create
+} from "../create";
 
 
-export class WordCounter extends Component<Props, State> {
+export const WordCounter = create(
+  "WordCounter",
+  function ({
+    config
+  }: {
+    config: WordCounterConfig
+  }) {
 
-  public state: State = {
-    count: 0,
-    type: "word",
-    id: ""
-  };
+    const [count, setCount] = useState(0);
+    const [type, setType] = useState<WordUnitType>("word");
+    const [id] = useState(nanoid(10));
 
-  public constructor(props: Props) {
-    super(props);
-    this.state.id = nanoid(10);
-  }
+    const changeType = useCallback(function (): void {
+      setType((type) => (type === "word") ? "tokipona" : "word");
+    }, []);
 
-  public async componentDidMount(): Promise<void> {
-    const interval = this.props.config.interval;
-    setInterval(this.update.bind(this), interval);
-  }
-
-  private changeType(): void {
-    const type = this.state.type;
-    this.setState({type: (type === "word") ? "tokipona" : "word"});
-  }
-
-  private async update(): Promise<void> {
-    const path = this.props.config.path;
-    const params = {path};
-    try {
-      const count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
-      this.setState({count});
-    } catch (error) {
-    }
-  }
-
-  public render(): ReactNode {
-    const type = this.state.type;
-    const count = this.state.count;
-    const value = (type === "word") ? count : count / 120;
-    const fractionalLength = (type === "word") ? 0 : 2;
-    const unit = (type === "word") ? "words" : "TP";
-    const valueNode = formatNumber(value, fractionalLength, {
-      integerPart: (string) => <span className="digit integer">{string}</span>,
-      fractionalPart: (string) => <span className="digit fractional">{string}</span>,
-      decimal: (string) => <span className="decimal">{string}</span>
+    useMount(() => {
+      setInterval(async () => {
+        const path = config.path;
+        const params = {path};
+        try {
+          const count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
+          setCount(count);
+        } catch (error) {
+        }
+      }, config.interval);
     });
+
+    const {value, fractionalLength, unit} = getCountSpec(count, type);
     const node = (
-      <div className="gadget word-counter" id={this.state.id} onClick={this.changeType.bind(this)}>
-        <div className="value">{valueNode}</div>
+      <div className="gadget word-counter" id={id} onClick={changeType}>
+        <div className="value">
+          {formatNumber(value, fractionalLength, {
+            integerPart: (string) => <span className="digit integer">{string}</span>,
+            fractionalPart: (string) => <span className="digit fractional">{string}</span>,
+            decimal: (string) => <span className="decimal">{string}</span>
+          })}
+        </div>
         <div className="unit">{unit}</div>
       </div>
     );
     return node;
+
   }
+);
 
+
+function getCountSpec(count: number, type: WordUnitType): {value: number, fractionalLength: number, unit: string} {
+  if (type === "word") {
+    return {value: count, fractionalLength: 0, unit: "words"};
+  } else {
+    return {value: count / 120, fractionalLength: 2, unit: "TP"};
+  }
 }
-
-
-type Props = {
-  config: WordCounterConfig
-};
-type State = {
-  count: number,
-  type: "word" | "tokipona",
-  id: string
-};
 
 export type WordCounterConfig = {
   name: "wordCounter",
   path: string,
   interval: number
 };
+export type WordUnitType = "word" | "tokipona";

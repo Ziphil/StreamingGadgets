@@ -5,9 +5,13 @@ import {
 } from "nanoid";
 import * as react from "react";
 import {
-  Component,
-  ReactNode
+  useEffect,
+  useRef,
+  useState
 } from "react";
+import {
+  useMount
+} from "react-use";
 import {
   Comment,
   CommentFetcher
@@ -28,90 +32,78 @@ import {
   YoutubeCommentFetcher,
   YoutubeCommentFetcherConfig
 } from "../../module/comment-fetcher/youtube";
+import {
+  create
+} from "../create";
 
 
-export class CommentViewer extends Component<Props, State> {
+export const CommentViewer = create(
+  "CommentViewer",
+  function ({
+    config
+  }: {
+    config: CommentViewerConfig
+  }) {
 
-  public state: State = {
-    fetchers: [],
-    comments: [],
-    id: ""
-  };
+    const fetchersRef = useRef<Array<CommentFetcher>>(createFetchers(config.platforms));
+    const virtualCommentsRef = useRef<Array<Comment>>([]);
+    const [comments, setComments] = useState<Array<Comment>>([]);
+    const [id] = useState(nanoid(10));
 
-  private virtualComments: Array<Comment> = [];
-
-  public constructor(props: Props) {
-    super(props);
-    const rawFetchers = props.config.platforms.map((platformConfig) => {
-      if (platformConfig.name === "youtube") {
-        return new YoutubeCommentFetcher(platformConfig);
-      } else if (platformConfig.name === "twitcasting") {
-        return new TwitcastingCommentFetcher(platformConfig);
-      } else if (platformConfig.name === "discord") {
-        return new DiscordCommentFetcher(platformConfig);
-      } else if (platformConfig.name === "dummy") {
-        return new DummyCommentFetcher(platformConfig);
-      } else {
-        return undefined;
+    useMount(async () => {
+      const fetchers = fetchersRef.current;
+      await Promise.all(fetchers.map((fetcher) => fetcher.start()));
+      for (const fetcher of fetchers) {
+        setInterval(async () => {
+          const addedComments = await fetcher.update();
+          virtualCommentsRef.current.push(...addedComments);
+          if (addedComments.length > 0) {
+            setComments([...virtualCommentsRef.current]);
+          }
+        }, fetcher.interval);
       }
     });
-    this.state.fetchers = rawFetchers.flatMap((fetcher) => fetcher ?? []);
-    this.state.id = nanoid(10);
-  }
 
-  public async componentDidMount(): Promise<void> {
-    await this.start();
-    for (const fetcher of this.state.fetchers) {
-      setInterval(() => this.update(fetcher), fetcher.interval);
-    }
-  }
-
-  private async start(): Promise<void> {
-    const promises = this.state.fetchers.map((fetcher) => fetcher.start());
-    await Promise.all(promises);
-  }
-
-  private async update(fetcher: CommentFetcher): Promise<void> {
-    const addedComments = await fetcher.update();
-    this.virtualComments.push(...addedComments);
-    const comments = this.virtualComments;
-    this.setState({comments}, () => {
-      const element = document.getElementById(this.state.id)!;
+    useEffect(() => {
+      const element = document.getElementById(id)!;
       element.scrollTop = element.scrollHeight;
-    });
-  }
+    }, [comments]);
 
-  public render(): ReactNode {
-    const commentNodes = this.state.comments.map((comment, index) => {
-      const commentNode = (
-        <div className={`comment ${comment.platformName}`} key={index}>
-          <span className="author">{comment.author}</span>
-          <span className="text">{comment.text}</span>
-        </div>
-      );
-      return commentNode;
-    });
     const node = (
       <div className="gadget comment-viewer">
-        <div className="scroll" id={this.state.id}>
-          {commentNodes}
+        <div className="scroll" id={id}>
+          {comments.map((comment, index) => (
+            <div className={`comment ${comment.platformName}`} key={index}>
+              <span className="author">{comment.author}</span>
+              <span className="text">{comment.text}</span>
+            </div>
+          ))}
         </div>
       </div>
     );
     return node;
+
   }
+);
 
+
+function createFetchers(platforms: Array<PlatformConfigs[keyof PlatformConfigs]>): Array<CommentFetcher> {
+  const rawFetchers = platforms.map((platformConfig) => {
+    if (platformConfig.name === "youtube") {
+      return new YoutubeCommentFetcher(platformConfig);
+    } else if (platformConfig.name === "twitcasting") {
+      return new TwitcastingCommentFetcher(platformConfig);
+    } else if (platformConfig.name === "discord") {
+      return new DiscordCommentFetcher(platformConfig);
+    } else if (platformConfig.name === "dummy") {
+      return new DummyCommentFetcher(platformConfig);
+    } else {
+      return undefined;
+    }
+  });
+  const fetchers = rawFetchers.flatMap((fetcher) => fetcher ?? []);
+  return fetchers;
 }
-
-
-type Props = {
-  config: CommentViewerConfig
-};
-type State = {
-  fetchers: Array<CommentFetcher>,
-  comments: Array<Comment>,
-  id: string
-};
 
 export type CommentViewerConfig = {
   name: "commentViewer",

@@ -70,7 +70,9 @@ const config = {
   devServer: {
     port: 3001,
     historyApiFallback: true,
-    contentBase: path.join(__dirname, "dist", "client"),
+    static: {
+      directory: path.join(__dirname, "dist", "client")
+    },
     proxy: {
       "/api": "http://localhost:8051"
     }
