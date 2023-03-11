@@ -62,7 +62,7 @@ export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingComment
           const author = item["from_user"]["name"];
           const text = item["message"];
           this.lastCommentId = item["id"];
-          return new Comment("twitcasting", author, text);
+          return {platformName: "twitcasting", author, text};
         });
         return comments;
       } catch (error) {

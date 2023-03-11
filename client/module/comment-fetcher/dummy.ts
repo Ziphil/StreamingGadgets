@@ -17,7 +17,7 @@ export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfi
     const comments = [...Array(length)].map(() => {
       const author = (config.authorPrefix ?? "") + DummyCommentFetcher.createRandomString(Math.floor(Math.random() * 12));
       const text = (config.textPrefix ?? "") + DummyCommentFetcher.createRandomSentence(10, Math.floor(Math.random() * 12) + 3);
-      const comment = new Comment("dummy", author, text);
+      const comment = {platformName: "dummy", author, text};
       return comment;
     });
     return comments;

@@ -45,7 +45,7 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
         }
       });
       if (ignorePrefix === undefined || !(typeof text[0] === "string" && text[0].startsWith(ignorePrefix))) {
-        const comment = new Comment("discord", author, text);
+        const comment = {platformName: "discord", author, text};
         comments.push(comment);
       }
     }

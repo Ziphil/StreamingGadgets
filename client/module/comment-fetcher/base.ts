@@ -22,17 +22,12 @@ export abstract class CommentFetcher<C extends CommentFetcherConfig = CommentFet
 }
 
 
-export class Comment {
+export interface Comment {
 
-  public readonly platformName: string;
-  public readonly author: ReactNode;
-  public readonly text: ReactNode;
-
-  public constructor(platformName: string, author?: ReactNode, text?: ReactNode) {
-    this.platformName = platformName;
-    this.author = author ?? null;
-    this.text = text ?? null;
-  }
+  readonly id?: string;
+  readonly platformName: string;
+  readonly author: ReactNode;
+  readonly text: ReactNode;
 
 }
 
