@@ -12,6 +12,10 @@ import {
   CommentViewerConfig
 } from "./gadget/comment-viewer";
 import {
+  EventTimeline,
+  EventTimelineConfig
+} from "./gadget/event-timeline";
+import {
   WordCounter,
   WordCounterConfig
 } from "./gadget/word-counter";
@@ -33,6 +37,8 @@ export const Root = create(
               <CommentViewer config={gadgetConfig}/>
             ) : (gadgetConfig.name === "wordCounter") ? (
               <WordCounter config={gadgetConfig}/>
+            ) : (gadgetConfig.name === "eventTimeline") ? (
+              <EventTimeline config={gadgetConfig}/>
             ) : null}
           </Fragment>
         ))}
@@ -48,4 +54,4 @@ export type RootConfig = {
   gadgets: Array<GadgetConfig>,
   cssPath?: string
 };
-export type GadgetConfig = CommentViewerConfig | WordCounterConfig;
+export type GadgetConfig = CommentViewerConfig | WordCounterConfig | EventTimelineConfig;
