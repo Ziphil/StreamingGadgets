@@ -22,7 +22,7 @@ export const ProgramTimeline = create(
   function ({
     config
   }: {
-    config: EventTimelineConfig
+    config: ProgramTimelineConfig
   }) {
 
     const id = useGadgetId();
@@ -40,9 +40,9 @@ export const ProgramTimeline = create(
 
     const displayedProgramSpecs = indexedProgramSpecs.slice(Math.max((ongoingIndex ?? 0) - (config.displayedCount.before ?? 0), 0)).slice(0, config.displayedCount.max);
     const node = (
-      <section className={`gadget timeline ${config.className}`} id={id} onClick={proceed}>
+      <section className={`gadget program-timeline ${config.className}`} id={id} onClick={proceed}>
         <div className="title">{config.title}</div>
-        <div className="program-list">
+        <div className="view-list">
           {displayedProgramSpecs.map((spec) => (
             <ProgramView key={spec.id} spec={spec} ongoing={"index" in spec && ongoingIndex === spec.index}/>
           ))}
@@ -65,23 +65,23 @@ const ProgramView = create(
   }) {
 
     const node = (
-      <div className="program" data-ongoing={ongoing} data-dummy={spec.dummy ?? false}>
-        <div className="program-next"/>
-        <div className="program-main">
-          <div className="program-title-container">
-            <div className="program-number">{spec.number}</div>
-            <div className="program-title-main">
-              <div className="program-time">
-                <span className="program-time-segment program-time-segment-start">{spec.time.start ?? "?"}</span>
-                <span className="program-time-separator">–</span>
-                <span className="program-time-segment program-time-segment-end">{spec.time.end ?? ""}</span>
+      <div className="view" data-ongoing={ongoing} data-dummy={spec.dummy ?? false}>
+        <div className="view-next"/>
+        <div className="view-main">
+          <div className="view-title-container">
+            <div className="view-number">{spec.number}</div>
+            <div className="view-title-main">
+              <div className="view-time">
+                <span className="view-time-segment view-time-segment-start">{spec.time.start ?? "?"}</span>
+                <span className="view-time-separator">–</span>
+                <span className="view-time-segment view-time-segment-end">{spec.time.end ?? ""}</span>
               </div>
-              <div className="program-title">{spec.title}</div>
+              <div className="view-title">{spec.title}</div>
             </div>
           </div>
-          <div className="program-presenter-container">
-            <div className="program-presenter-by"/>
-            <div className="program-presenter">{spec.presenter ?? "—"}</div>
+          <div className="view-presenter-container">
+            <div className="view-presenter-by"/>
+            <div className="view-presenter">{spec.presenter ?? "—"}</div>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ const ProgramView = create(
 );
 
 
-export type EventTimelineConfig = {
+export type ProgramTimelineConfig = {
   name: "programTimeline",
   className?: string,
   title: string,
