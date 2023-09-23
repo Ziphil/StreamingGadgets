@@ -17,8 +17,8 @@ import {
 } from "../hook/id";
 
 
-export const EventTimeline = create(
-  "EventTimeline",
+export const ProgramTimeline = create(
+  "ProgramTimeline",
   function ({
     config
   }: {
