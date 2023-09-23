@@ -1,8 +1,6 @@
 //
 
-import {
-  nanoid
-} from "nanoid";
+
 import * as react from "react";
 import {
   useEffect,
@@ -35,6 +33,9 @@ import {
 import {
   create
 } from "../create";
+import {
+  useGadgetId
+} from "../hook/id";
 
 
 export const CommentViewer = create(
@@ -45,10 +46,10 @@ export const CommentViewer = create(
     config: CommentViewerConfig
   }) {
 
+    const id = useGadgetId();
     const fetchersRef = useRef<Array<CommentFetcher>>(createFetchers(config.platforms));
     const virtualCommentsRef = useRef<Array<Comment>>([]);
     const [comments, setComments] = useState<Array<Comment>>([]);
-    const [id] = useState(nanoid(10));
 
     useMount(async () => {
       const fetchers = fetchersRef.current;

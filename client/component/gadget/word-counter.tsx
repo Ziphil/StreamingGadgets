@@ -1,9 +1,6 @@
 //
 
 import axios from "axios";
-import {
-  nanoid
-} from "nanoid";
 import * as react from "react";
 import {
   useCallback,
@@ -18,6 +15,9 @@ import {
 import {
   create
 } from "../create";
+import {
+  useGadgetId
+} from "../hook/id";
 
 
 export const WordCounter = create(
@@ -28,9 +28,9 @@ export const WordCounter = create(
     config: WordCounterConfig
   }) {
 
+    const id = useGadgetId();
     const [count, setCount] = useState(0);
     const [type, setType] = useState<WordUnitType>("word");
-    const [id] = useState(nanoid(10));
 
     const changeType = useCallback(function (): void {
       setType((type) => (type === "word") ? "tokipona" : "word");
@@ -53,9 +53,9 @@ export const WordCounter = create(
       <div className="gadget word-counter" id={id} onClick={changeType}>
         <div className="value">
           {formatNumber(value, fractionalLength, {
-            integerPart: (string) => <span className="digit integer">{string}</span>,
-            fractionalPart: (string) => <span className="digit fractional">{string}</span>,
-            decimal: (string) => <span className="decimal">{string}</span>
+            integerPart: (string) => <span className="digit integer" key="integer">{string}</span>,
+            fractionalPart: (string) => <span className="digit fractional" key="fractional">{string}</span>,
+            decimal: (string) => <span className="decimal" key="decimal">{string}</span>
           })}
         </div>
         <div className="unit">{unit}</div>
