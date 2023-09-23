@@ -6,6 +6,8 @@ import {
   Response
 } from "express";
 import fs from "fs";
+import yamlParser from "js-yaml";
+import pathUtil from "path";
 import {
   Controller
 } from "./controller";
@@ -25,7 +27,13 @@ export class SystemController extends Controller {
       if (error) {
         next(error);
       } else {
-        response.type("application/json").send(config).end();
+        const extension = pathUtil.extname(path);
+        if (extension === ".json") {
+          response.type("application/json").send(config).end();
+        } else if (extension === ".yml" || extension === ".yaml") {
+          const json = JSON.stringify(yamlParser.load(config));
+          response.type("application/yaml").send(json).end();
+        }
       }
     });
   }
