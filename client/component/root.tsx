@@ -37,7 +37,7 @@ export const Root = create(
               <CommentViewer config={gadgetConfig}/>
             ) : (gadgetConfig.name === "wordCounter") ? (
               <WordCounter config={gadgetConfig}/>
-            ) : (gadgetConfig.name === "eventTimeline") ? (
+            ) : (gadgetConfig.name === "programTimeline") ? (
               <EventTimeline config={gadgetConfig}/>
             ) : null}
           </Fragment>
