@@ -71,7 +71,7 @@ export const CommentViewer = create(
     }, [comments]);
 
     const node = (
-      <div className="gadget comment-viewer">
+      <section className={`gadget comment-viewer ${config.className}`}>
         <div className="scroll" id={id}>
           {comments.map((comment, index) => (
             <div className={`comment ${comment.platformName}`} key={index}>
@@ -80,7 +80,7 @@ export const CommentViewer = create(
             </div>
           ))}
         </div>
-      </div>
+      </section>
     );
     return node;
 
@@ -108,6 +108,7 @@ function createFetchers(platforms: Array<PlatformConfigs[keyof PlatformConfigs]>
 
 export type CommentViewerConfig = {
   name: "commentViewer",
+  className?: string,
   platforms: Array<PlatformConfigs[keyof PlatformConfigs]>,
   interval: number
 };

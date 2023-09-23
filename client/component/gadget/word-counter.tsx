@@ -50,7 +50,7 @@ export const WordCounter = create(
 
     const {value, fractionalLength, unit} = getCountSpec(count, type);
     const node = (
-      <div className="gadget word-counter" id={id} onClick={changeType}>
+      <section className={`gadget word-counter ${config.className}`} id={id} onClick={changeType}>
         <div className="value">
           {formatNumber(value, fractionalLength, {
             integerPart: (string) => <span className="digit integer" key="integer">{string}</span>,
@@ -59,7 +59,7 @@ export const WordCounter = create(
           })}
         </div>
         <div className="unit">{unit}</div>
-      </div>
+      </section>
     );
     return node;
 
@@ -77,6 +77,7 @@ function getCountSpec(count: number, type: WordUnitType): {value: number, fracti
 
 export type WordCounterConfig = {
   name: "wordCounter",
+  className?: string,
   path: string,
   interval: number
 };
