@@ -53,8 +53,8 @@ export const WordCounter = create(
       <section className={`gadget word-counter ${config.className}`} id={id} onClick={changeType}>
         <div className="value">
           {formatNumber(value, fractionalLength, {
-            integerPart: (string) => <span className="digit integer" key="integer">{string}</span>,
-            fractionalPart: (string) => <span className="digit fractional" key="fractional">{string}</span>,
+            integerPart: (string) => <span className="digit digit-integer" key="integer">{string}</span>,
+            fractionalPart: (string) => <span className="digit digit-fractional" key="fractional">{string}</span>,
             decimal: (string) => <span className="decimal" key="decimal">{string}</span>
           })}
         </div>

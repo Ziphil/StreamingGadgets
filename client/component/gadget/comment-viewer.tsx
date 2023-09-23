@@ -31,6 +31,9 @@ import {
   YoutubeCommentFetcherConfig
 } from "../../module/comment-fetcher/youtube";
 import {
+  data
+} from "../../util/data";
+import {
   create
 } from "../create";
 import {
@@ -74,7 +77,7 @@ export const CommentViewer = create(
       <section className={`gadget comment-viewer ${config.className}`}>
         <div className="scroll" id={id}>
           {comments.map((comment, index) => (
-            <div className={`comment ${comment.platformName}`} key={index}>
+            <div className="comment" key={index} {...data({platform: comment.platformName})}>
               <span className="author">{comment.author}</span>
               <span className="text">{comment.text}</span>
             </div>
