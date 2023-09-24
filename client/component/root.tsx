@@ -12,6 +12,10 @@ import {
   CommentViewerConfig
 } from "./gadget/comment-viewer";
 import {
+  Html,
+  HtmlConfig
+} from "./gadget/html";
+import {
   ProgramMirror,
   ProgramMirrorConfig
 } from "./gadget/program-mirror";
@@ -45,6 +49,8 @@ export const Root = create(
               <ProgramTimeline config={gadgetConfig}/>
             ) : (gadgetConfig.name === "programMirror") ? (
               <ProgramMirror config={gadgetConfig}/>
+            ) : (gadgetConfig.name === "html") ? (
+              <Html config={gadgetConfig}/>
             ) : null}
           </Fragment>
         ))}
@@ -60,4 +66,4 @@ export type RootConfig = {
   gadgets: Array<GadgetConfig>,
   cssPath?: string
 };
-export type GadgetConfig = CommentViewerConfig | WordCounterConfig | ProgramTimelineConfig | ProgramMirrorConfig;
+export type GadgetConfig = CommentViewerConfig | WordCounterConfig | ProgramTimelineConfig | ProgramMirrorConfig | HtmlConfig;
