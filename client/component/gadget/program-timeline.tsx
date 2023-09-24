@@ -44,7 +44,7 @@ export const ProgramTimeline = create(
         <div className="title">{config.title}</div>
         <div className="view-list">
           {displayedProgramSpecs.map((spec) => (
-            <ProgramView key={spec.id} spec={spec} ongoing={"index" in spec && ongoingIndex === spec.index}/>
+            <ProgramView key={spec.id} spec={spec} ongoing={"index" in spec && ongoingIndex === spec.index} nextText={config.nextText} presenterCaption={config.presenterCaption}/>
           ))}
         </div>
       </section>
@@ -58,15 +58,19 @@ export const ProgramTimeline = create(
 const ProgramView = create(
   function ({
     spec,
-    ongoing
+    ongoing,
+    nextText,
+    presenterCaption
   }: {
     spec: ProgramSpec & {dummy?: boolean},
-    ongoing: boolean
+    ongoing: boolean,
+    nextText: string,
+    presenterCaption: string
   }) {
 
     const node = (
       <div className="view" data-ongoing={ongoing} data-dummy={spec.dummy ?? false}>
-        <div className="view-next"/>
+        <div className="view-next">{nextText}</div>
         <div className="view-main">
           <div className="view-title-container">
             <div className="view-number">{spec.number}</div>
@@ -80,7 +84,7 @@ const ProgramView = create(
             </div>
           </div>
           <div className="view-presenter-container">
-            <div className="view-presenter-by"/>
+            <div className="view-presenter-caption">{presenterCaption}</div>
             <div className="view-presenter">{spec.presenter ?? "—"}</div>
           </div>
         </div>
@@ -95,8 +99,10 @@ const ProgramView = create(
 export type ProgramTimelineConfig = {
   name: "programTimeline",
   className?: string,
-  title: string,
   programSpecs: Array<ProgramSpec>,
+  title: string,
+  nextText: string,
+  presenterCaption: string,
   displayedCount: {max: number, before?: number},
   fillDummy?: boolean
 };

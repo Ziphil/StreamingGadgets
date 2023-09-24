@@ -74,8 +74,8 @@ export const CommentViewer = create(
     }, [comments]);
 
     const node = (
-      <section className={`gadget comment-viewer ${config.className}`}>
-        <div className="scroll" id={id}>
+      <section className={`gadget comment-viewer ${config.className}`} id={id}>
+        <div className="scroll">
           {comments.map((comment, index) => (
             <div className="comment" key={index} {...data({platform: comment.platformName})}>
               <span className="author">{comment.author}</span>
