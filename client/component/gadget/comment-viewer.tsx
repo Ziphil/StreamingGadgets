@@ -52,6 +52,7 @@ export const CommentViewer = create(
     const id = useGadgetId();
     const fetchersRef = useRef<Array<CommentFetcher>>(createFetchers(config.platforms));
     const virtualCommentsRef = useRef<Array<Comment>>([]);
+    const scrollElementRef = useRef<HTMLDivElement | null>(null);
     const [comments, setComments] = useState<Array<Comment>>([]);
 
     useMount(async () => {
@@ -69,13 +70,15 @@ export const CommentViewer = create(
     });
 
     useEffect(() => {
-      const element = document.getElementById(id)!;
-      element.scrollTop = element.scrollHeight;
+      const element = scrollElementRef.current;
+      if (element !== null) {
+        element.scrollTop = element.scrollHeight;
+      }
     }, [comments]);
 
     const node = (
       <section className={`gadget comment-viewer ${config.className}`} id={id}>
-        <div className="scroll">
+        <div className="scroll" ref={scrollElementRef}>
           {comments.map((comment, index) => (
             <div className="comment" key={index} {...data({platform: comment.platformName})}>
               <span className="author">{comment.author}</span>
