@@ -5,7 +5,8 @@ import {
   Client as DiscordClient,
   GatewayIntentBits,
   Snowflake,
-  TextChannel
+  TextChannel,
+  VoiceChannel
 } from "discord.js";
 import {
   NextFunction,
@@ -21,7 +22,8 @@ import {
 } from "./controller";
 import {
   controller,
-  get
+  get,
+  post
 } from "./decorator";
 
 
@@ -63,11 +65,11 @@ export class MainController extends Controller {
     }
   }
 
-  @get("/comment-viewer/discord/start")
+  @post("/comment-viewer/discord/start")
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
-    const key = request.query.key as string;
-    const channelId = request.query.channelId as Snowflake;
-    const firstMessage = request.query.firstMessage as string | undefined;
+    const key = request.body.key as string;
+    const channelIds = request.body.channelIds as Array<Snowflake>;
+    const firstMessage = request.body.firstMessage as string | undefined;
     if (this.discordClient !== null) {
       this.discordClient.destroy();
     }
@@ -79,13 +81,15 @@ export class MainController extends Controller {
     this.discordClient = client;
     await client.login(key);
     if (firstMessage !== undefined) {
-      const channel = await client.channels.fetch(channelId);
-      if (channel instanceof TextChannel) {
-        await channel.send(firstMessage);
+      for (const channelId of channelIds) {
+        const channel = await client.channels.fetch(channelId);
+        if (channel instanceof TextChannel || channel instanceof VoiceChannel) {
+          await channel.send(firstMessage);
+        }
       }
     }
     client.on("messageCreate", (message) => {
-      if (message.channel.id === channelId) {
+      if (channelIds.indexOf(message.channel.id) >= 0) {
         const messageJson = message.toJSON() as {[key: string]: unknown};
         const authorJson = message.author.toJSON();
         const memberJson = message.member?.toJSON();

@@ -7,6 +7,9 @@ import {
   ReactNode
 } from "react";
 import {
+  toArray
+} from "../../util/array";
+import {
   Comment,
   CommentFetcher
 } from "./base";
@@ -25,10 +28,10 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
 
   private async prepareClient(): Promise<void> {
     const key = this.config.key;
-    const channelId = this.config.channelId;
+    const channelIds = toArray(this.config.channelId);
     const firstMessage = this.config.firstMessage;
-    const params = {key, channelId, firstMessage};
-    await axios.get("/api/comment-viewer/discord/start", {params});
+    const body = {key, channelIds, firstMessage};
+    await axios.post("/api/comment-viewer/discord/start", body);
   }
 
   private async fetchComments(): Promise<Array<Comment>> {
@@ -78,7 +81,7 @@ export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherC
 export type DiscordCommentFetcherConfig = {
   name: "discord",
   key: string,
-  channelId: string,
+  channelId: string | Array<string>,
   firstMessage?: string,
   ignorePrefix?: string,
   interval: number
