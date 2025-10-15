@@ -29,10 +29,9 @@ export const WordCounter = create(
 
     useMount(() => {
       setInterval(async () => {
-        const path = config.path;
-        const params = {path};
+        const {name, ...params} = config.dictionary;
         try {
-          const count = await axios.get("/api/word-counter/count", {params}).then((response) => response.data);
+          const count = await axios.get(`/api/word-counter/${name}`, {params}).then((response) => response.data);
           setCount(count);
         } catch (error) {
         }
@@ -67,7 +66,21 @@ function getCountSpec(count: number, type: WordUnitType): {value: number, fracti
 export type WordCounterConfig = {
   name: "wordCounter",
   className?: string,
-  path: string,
+  dictionary: DictionaryConfigs[keyof DictionaryConfigs],
   interval: number
 };
 export type WordUnitType = "word" | "tokipona";
+
+export type DictionaryConfigs = {
+  shaleian: ShaleianDictionaryConfig,
+  fennese: FenneseDictionaryConfig
+};
+export type ShaleianDictionaryConfig = {
+  name: "shaleian",
+  path: string
+};
+export type FenneseDictionaryConfig = {
+  name: "fennese",
+  paramName: string,
+  apiKey: string
+};
