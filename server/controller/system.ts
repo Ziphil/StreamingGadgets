@@ -1,20 +1,11 @@
 //
 
-import {
-  NextFunction,
-  Request,
-  Response
-} from "express";
+import {NextFunction, Request, Response} from "express";
 import fs from "fs";
 import yamlParser from "js-yaml";
 import pathUtil from "path";
-import {
-  Controller
-} from "./controller";
-import {
-  controller,
-  get
-} from "./decorator";
+import {Controller} from "./controller";
+import {controller, get} from "./decorator";
 
 
 @controller("/api")

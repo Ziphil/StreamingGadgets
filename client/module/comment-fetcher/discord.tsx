@@ -2,17 +2,9 @@
 
 import axios from "axios";
 import * as react from "react";
-import {
-  Fragment,
-  ReactNode
-} from "react";
-import {
-  toArray
-} from "../../util/array";
-import {
-  Comment,
-  CommentFetcher
-} from "./base";
+import {Fragment, ReactNode} from "react";
+import {toArray} from "../../util/array";
+import {Comment, CommentFetcher} from "./base";
 
 
 export class DiscordCommentFetcher extends CommentFetcher<DiscordCommentFetcherConfig> {

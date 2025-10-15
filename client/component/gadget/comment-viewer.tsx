@@ -1,44 +1,16 @@
 //
 
-
 import * as react from "react";
-import {
-  useEffect,
-  useRef,
-  useState
-} from "react";
-import {
-  useMount
-} from "react-use";
-import {
-  Comment,
-  CommentFetcher
-} from "../../module/comment-fetcher/base";
-import {
-  DiscordCommentFetcher,
-  DiscordCommentFetcherConfig
-} from "../../module/comment-fetcher/discord";
-import {
-  DummyCommentFetcher,
-  DummyCommentFetcherConfig
-} from "../../module/comment-fetcher/dummy";
-import {
-  TwitcastingCommentFetcher,
-  TwitcastingCommentFetcherConfig
-} from "../../module/comment-fetcher/twitcasting";
-import {
-  YoutubeCommentFetcher,
-  YoutubeCommentFetcherConfig
-} from "../../module/comment-fetcher/youtube";
-import {
-  data
-} from "../../util/data";
-import {
-  create
-} from "../create";
-import {
-  useGadgetId
-} from "../hook/id";
+import {useEffect, useRef, useState} from "react";
+import {useMount} from "react-use";
+import {Comment, CommentFetcher} from "../../module/comment-fetcher/base";
+import {DiscordCommentFetcher, DiscordCommentFetcherConfig} from "../../module/comment-fetcher/discord";
+import {DummyCommentFetcher, DummyCommentFetcherConfig} from "../../module/comment-fetcher/dummy";
+import {TwitcastingCommentFetcher, TwitcastingCommentFetcherConfig} from "../../module/comment-fetcher/twitcasting";
+import {YoutubeCommentFetcher, YoutubeCommentFetcherConfig} from "../../module/comment-fetcher/youtube";
+import {data} from "../../util/data";
+import {create} from "../create";
+import {useGadgetId} from "../hook/id";
 
 
 export const CommentViewer = create(
@@ -76,7 +48,7 @@ export const CommentViewer = create(
       }
     }, [comments]);
 
-    const node = (
+    return (
       <section className={`gadget comment-viewer ${config.className}`} id={id}>
         <div className="scroll" ref={scrollElementRef}>
           {comments.map((comment, index) => (
@@ -88,7 +60,6 @@ export const CommentViewer = create(
         </div>
       </section>
     );
-    return node;
 
   }
 );

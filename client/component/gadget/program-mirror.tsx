@@ -1,23 +1,11 @@
 //
 
-import {
-  nanoid
-} from "nanoid";
+import {nanoid} from "nanoid";
 import * as react from "react";
-import {
-  useCallback,
-  useMemo,
-  useState
-} from "react";
-import {
-  create
-} from "../create";
-import {
-  useGadgetId
-} from "../hook/id";
-import {
-  ProgramSpec
-} from "./program-timeline";
+import {useCallback, useMemo, useState} from "react";
+import {create} from "../create";
+import {useGadgetId} from "../hook/id";
+import {ProgramSpec} from "./program-timeline";
 
 
 export const ProgramMirror = create(
@@ -39,15 +27,14 @@ export const ProgramMirror = create(
       const indexedProgramSpecs = config.programSpecs.map((spec, index) => ({...spec, index, id: nanoid()}));
       return indexedProgramSpecs;
     }, []);
-
     const displayedProgramSpec = indexedProgramSpecs[ongoingIndex ?? 0];
-    const node = (
+
+    return (
       <section className={`gadget program-mirror ${config.className}`} id={id} onClick={proceed}>
         <div className="display">{config.soundOnlyText}</div>
         <ProgramView spec={displayedProgramSpec} titleCaption={config.titleCaption} presenterCaption={config.presenterCaption}/>
       </section>
     );
-    return node;
 
   }
 );

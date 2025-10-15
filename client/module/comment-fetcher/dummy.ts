@@ -1,9 +1,6 @@
 //
 
-import {
-  Comment,
-  CommentFetcher
-} from "./base";
+import {Comment, CommentFetcher} from "./base";
 
 
 export class DummyCommentFetcher extends CommentFetcher<DummyCommentFetcherConfig> {

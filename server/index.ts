@@ -2,15 +2,9 @@
 
 import parser from "body-parser";
 import express from "express";
-import {
-  Express
-} from "express";
-import {
-  MainController
-} from "./controller/main";
-import {
-  SystemController
-} from "./controller/system";
+import {Express} from "express";
+import {MainController} from "./controller/main";
+import {SystemController} from "./controller/system";
 
 
 export class Main {

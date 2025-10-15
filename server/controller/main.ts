@@ -1,30 +1,12 @@
 //
 
 import axios from "axios";
-import {
-  Client as DiscordClient,
-  GatewayIntentBits,
-  Snowflake,
-  TextChannel,
-  VoiceChannel
-} from "discord.js";
-import {
-  NextFunction,
-  Request,
-  Response
-} from "express";
+import {Client as DiscordClient, GatewayIntentBits, Snowflake, TextChannel, VoiceChannel} from "discord.js";
+import {NextFunction, Request, Response} from "express";
 import fs from "fs";
-import {
-  encode
-} from "js-base64";
-import {
-  Controller
-} from "./controller";
-import {
-  controller,
-  get,
-  post
-} from "./decorator";
+import {encode} from "js-base64";
+import {Controller} from "./controller";
+import {controller, get, post} from "./decorator";
 
 
 @controller("/api")

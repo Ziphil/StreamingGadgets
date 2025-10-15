@@ -1,17 +1,8 @@
-//
+/* eslint-disable no-useless-call */
 
-import {
-  NextFunction,
-  Params,
-  ParamsDictionary,
-  Request,
-  RequestHandler,
-  Response
-} from "express-serve-static-core";
+import {NextFunction, Params, ParamsDictionary, Request, RequestHandler, Response} from "express-serve-static-core";
 import "reflect-metadata";
-import {
-  Controller
-} from "./controller";
+import {Controller} from "./controller";
 
 
 const KEY = Symbol("controller");

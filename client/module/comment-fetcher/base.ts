@@ -1,8 +1,6 @@
 //
 
-import {
-  ReactNode
-} from "react";
+import {ReactNode} from "react";
 
 
 export abstract class CommentFetcher<C extends CommentFetcherConfig = CommentFetcherConfig> {

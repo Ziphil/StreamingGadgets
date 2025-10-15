@@ -1,32 +1,13 @@
 //
 
 import * as react from "react";
-import {
-  Fragment
-} from "react";
-import {
-  create
-} from "./create";
-import {
-  CommentViewer,
-  CommentViewerConfig
-} from "./gadget/comment-viewer";
-import {
-  Html,
-  HtmlConfig
-} from "./gadget/html";
-import {
-  ProgramMirror,
-  ProgramMirrorConfig
-} from "./gadget/program-mirror";
-import {
-  ProgramTimeline,
-  ProgramTimelineConfig
-} from "./gadget/program-timeline";
-import {
-  WordCounter,
-  WordCounterConfig
-} from "./gadget/word-counter";
+import {Fragment} from "react";
+import {create} from "./create";
+import {CommentViewer, CommentViewerConfig} from "./gadget/comment-viewer";
+import {Html, HtmlConfig} from "./gadget/html";
+import {ProgramMirror, ProgramMirrorConfig} from "./gadget/program-mirror";
+import {ProgramTimeline, ProgramTimelineConfig} from "./gadget/program-timeline";
+import {WordCounter, WordCounterConfig} from "./gadget/word-counter";
 
 
 export const Root = create(
@@ -37,7 +18,7 @@ export const Root = create(
     config: RootConfig
   }) {
 
-    const node = (
+    return (
       <Fragment>
         {config.gadgets.map((gadgetConfig, index) => (
           <Fragment key={index}>
@@ -56,7 +37,6 @@ export const Root = create(
         ))}
       </Fragment>
     );
-    return node;
 
   }
 );

@@ -1,8 +1,6 @@
 //
 
-import {
-  FunctionComponent
-} from "react";
+import {FunctionComponent} from "react";
 
 
 export function create<C extends FunctionComponent<any>>(component: C): C;

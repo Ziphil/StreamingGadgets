@@ -2,22 +2,11 @@
 
 import axios from "axios";
 import * as react from "react";
-import {
-  useCallback,
-  useState
-} from "react";
-import {
-  useMount
-} from "react-use";
-import {
-  formatNumber
-} from "../../module/format-number";
-import {
-  create
-} from "../create";
-import {
-  useGadgetId
-} from "../hook/id";
+import {useCallback, useState} from "react";
+import {useMount} from "react-use";
+import {formatNumber} from "../../module/format-number";
+import {create} from "../create";
+import {useGadgetId} from "../hook/id";
 
 
 export const WordCounter = create(
@@ -36,6 +25,8 @@ export const WordCounter = create(
       setType((type) => (type === "word") ? "tokipona" : "word");
     }, []);
 
+    const {value, fractionalLength, unit} = getCountSpec(count, type);
+
     useMount(() => {
       setInterval(async () => {
         const path = config.path;
@@ -48,8 +39,7 @@ export const WordCounter = create(
       }, config.interval);
     });
 
-    const {value, fractionalLength, unit} = getCountSpec(count, type);
-    const node = (
+    return (
       <section className={`gadget word-counter ${config.className}`} id={id} onClick={changeType}>
         <div className="value">
           {formatNumber(value, fractionalLength, {
@@ -61,7 +51,6 @@ export const WordCounter = create(
         <div className="unit">{unit}</div>
       </section>
     );
-    return node;
 
   }
 );

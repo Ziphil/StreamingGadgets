@@ -1,12 +1,8 @@
 //
 
 import * as react from "react";
-import {
-  create
-} from "../create";
-import {
-  useGadgetId
-} from "../hook/id";
+import {create} from "../create";
+import {useGadgetId} from "../hook/id";
 
 
 export const Html = create(
@@ -19,11 +15,10 @@ export const Html = create(
 
     const id = useGadgetId();
 
-    const node = (
+    return (
       <section className={`gadget word-counter ${config.className}`} id={id} dangerouslySetInnerHTML={createHtmlObject(config.html)}>
       </section>
     );
-    return node;
 
   }
 );

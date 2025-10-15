@@ -1,20 +1,10 @@
 //
 
-import {
-  nanoid
-} from "nanoid";
+import {nanoid} from "nanoid";
 import * as react from "react";
-import {
-  useCallback,
-  useMemo,
-  useState
-} from "react";
-import {
-  create
-} from "../create";
-import {
-  useGadgetId
-} from "../hook/id";
+import {useCallback, useMemo, useState} from "react";
+import {create} from "../create";
+import {useGadgetId} from "../hook/id";
 
 
 export const ProgramTimeline = create(
@@ -37,9 +27,9 @@ export const ProgramTimeline = create(
       const indexedProgramSpecs = dummiedProgramSpecs.map((spec, index) => ({...spec, index, id: nanoid()}));
       return indexedProgramSpecs;
     }, []);
-
     const displayedProgramSpecs = indexedProgramSpecs.slice(Math.max((ongoingIndex ?? 0) - (config.displayedCount.before ?? 0), 0)).slice(0, config.displayedCount.max);
-    const node = (
+
+    return (
       <section className={`gadget program-timeline ${config.className}`} id={id} onClick={proceed}>
         <div className="title">{config.title}</div>
         <div className="view-list">
@@ -49,7 +39,6 @@ export const ProgramTimeline = create(
         </div>
       </section>
     );
-    return node;
 
   }
 );
@@ -68,7 +57,7 @@ const ProgramView = create(
     presenterCaption: string
   }) {
 
-    const node = (
+    return (
       <div className="view" data-ongoing={ongoing} data-dummy={spec.dummy ?? false}>
         <div className="view-next">{nextText}</div>
         <div className="view-main">
@@ -90,7 +79,6 @@ const ProgramView = create(
         </div>
       </div>
     );
-    return node;
 
   }
 );

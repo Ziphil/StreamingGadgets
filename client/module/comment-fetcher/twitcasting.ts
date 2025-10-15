@@ -1,10 +1,7 @@
 //
 
 import axios from "axios";
-import {
-  Comment,
-  CommentFetcher
-} from "./base";
+import {Comment, CommentFetcher} from "./base";
 
 
 export class TwitcastingCommentFetcher extends CommentFetcher<TwitcastingCommentFetcherConfig> {
