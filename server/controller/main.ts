@@ -32,7 +32,10 @@ export class MainController extends Controller {
   public async [Symbol()](request: Request, response: Response, next: NextFunction): Promise<void> {
     const apiKey = request.query.apiKey as string;
     const paramName = request.query.paramName as string;
-    const result = await axios.get(`https://zpdic.ziphil.com/api/v1/dictionary/${paramName}/words?text=単語&mode=tag&type=exact`, {headers: {"X-Api-Key": apiKey}});
+    const result = await axios.get(`https://zpdic.ziphil.com/api/v1/dictionary/${paramName}/words`, {
+      params: {text: "単語", mode: "tag", type: "exact"},
+      headers: {"X-Api-Key": apiKey}
+    });
     const count = result.data.total;
     response.json(count).end();
   }
