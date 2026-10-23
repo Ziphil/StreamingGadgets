@@ -3,6 +3,7 @@
 import * as react from "react";
 import {Fragment} from "react";
 import {create} from "./create";
+import {Clock, ClockConfig} from "./gadget/clock";
 import {CommentViewer, CommentViewerConfig} from "./gadget/comment-viewer";
 import {Html, HtmlConfig} from "./gadget/html";
 import {ProgramMirror, ProgramMirrorConfig} from "./gadget/program-mirror";
@@ -30,6 +31,8 @@ export const Root = create(
               <ProgramTimeline config={gadgetConfig}/>
             ) : (gadgetConfig.name === "programMirror") ? (
               <ProgramMirror config={gadgetConfig}/>
+            ) : (gadgetConfig.name === "clock") ? (
+              <Clock config={gadgetConfig}/>
             ) : (gadgetConfig.name === "html") ? (
               <Html config={gadgetConfig}/>
             ) : null}
@@ -46,4 +49,4 @@ export type RootConfig = {
   gadgets: Array<GadgetConfig>,
   cssPath?: string
 };
-export type GadgetConfig = CommentViewerConfig | WordCounterConfig | ProgramTimelineConfig | ProgramMirrorConfig | HtmlConfig;
+export type GadgetConfig = CommentViewerConfig | WordCounterConfig | ProgramTimelineConfig | ProgramMirrorConfig | ClockConfig | HtmlConfig;

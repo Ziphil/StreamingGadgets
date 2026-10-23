@@ -13,6 +13,15 @@ export function formatNumber<T>(number: number, fractionalLength: number, conver
   return result;
 }
 
+export function formatFiguredNumber<T>(number: number, integerLength: number, converter: Pick<NumberPartConverter<T>, "integerPart">): Array<T> {
+  const result = [];
+  const integerPart = "" + Math.floor(number).toString().padStart(integerLength, "0");
+  for (const integerFigure of integerPart) {
+    result.push(converter.integerPart(integerFigure));
+  }
+  return result;
+}
+
 export function padZero(number: number | string, length: number): string {
   const preceding = new Array(length).join("0");
   const result = (preceding + number).slice(-length);

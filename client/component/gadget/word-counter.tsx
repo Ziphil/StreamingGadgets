@@ -2,8 +2,7 @@
 
 import axios from "axios";
 import * as react from "react";
-import {useCallback, useState} from "react";
-import {useMount} from "react-use";
+import {useCallback, useEffect, useState} from "react";
 import {formatNumber} from "../../module/format-number";
 import {create} from "../create";
 import {useGadgetId} from "../hook/id";
@@ -27,8 +26,8 @@ export const WordCounter = create(
 
     const {value, fractionalLength, unit} = getCountSpec(count, type);
 
-    useMount(() => {
-      setInterval(async () => {
+    useEffect(() => {
+      const interval = setInterval(async () => {
         const {name, ...params} = config.dictionary;
         try {
           const count = await axios.get(`/api/word-counter/${name}`, {params}).then((response) => response.data);
@@ -36,7 +35,8 @@ export const WordCounter = create(
         } catch (error) {
         }
       }, config.interval);
-    });
+      return () => clearInterval(interval);
+    }, []);
 
     return (
       <section className={`gadget word-counter ${config.className}`} id={id} onClick={changeType}>
